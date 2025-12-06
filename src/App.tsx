@@ -1,9 +1,12 @@
-import { DownloadIcon } from "lucide-react";
+import { ArrowUpRight, DownloadIcon, Linkedin, Mail, Navigation, Settings, Users } from "lucide-react";
+import { useState } from "react";
 import Footer from "./components/Footer";
 import FeatureCards from "./components/FeatureCards";
+import StaggerChildren from "./staggerChildren";
 
 export default function App() {
   const bgUrl = "/hero.png";
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <>
@@ -36,13 +39,13 @@ export default function App() {
             <a className="hover:underline" href="#">
               Home
             </a>
-            <a className="hover:underline" href="#">
-              Product
+            <a className="hover:underline" href="#fees">
+              Fees
             </a>
-            <a className="hover:underline" href="#">
-              Maintenance
+            <a className="hover:underline" href="#curriculum">
+              Curriculum
             </a>
-            <a className="hover:underline" href="#">
+            <a className="hover:underline" href="#about">
               About Us
             </a>
           </nav>
@@ -50,20 +53,71 @@ export default function App() {
           <div className="flex items-center gap-3">
             <a
               href="#"
-              className="inline-flex items-center rounded-full border border-white text-white shadow font-medium overflow-hidden px-1"
+              className="hidden md:inline-flex items-center rounded-full border border-white text-white shadow font-medium overflow-hidden px-1"
             >
               <span className="pl-4 pr-3 text-sm py-2 inline-flex items-center">
                 Contact Us
               </span>
               <span className="w-7 h-7 rounded-full bg-white text-black inline-flex items-center justify-center">
-                ↗
+                <ArrowUpRight className="w-5" />
               </span>
             </a>
-            <button className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full backdrop-blur-md bg-white/10 text-white">
+            <button
+              onClick={() => setMobileOpen(true)}
+              aria-controls="mobile-menu"
+              aria-expanded={mobileOpen}
+              className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full backdrop-blur-md bg-white/10 text-white"
+            >
               ☰
             </button>
           </div>
         </header>
+
+        {/* Mobile navigation panel */}
+        <div
+          id="mobile-menu"
+          className={`md:hidden fixed inset-0 z-40 transition-transform duration-300 ${
+            mobileOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+          aria-hidden={!mobileOpen}
+        >
+          <div className="absolute inset-0 bg-black/85 backdrop-blur-sm p-6 flex flex-col">
+            <div className="flex items-center justify-between mb-6">
+              <img src="/logo-white.png" alt="Sledge logo" className="w-28" />
+              <button
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu"
+                className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center"
+              >
+                ✕
+              </button>
+            </div>
+
+            <nav className="flex flex-col gap-4 mt-2">
+              <a onClick={() => setMobileOpen(false)} href="#" className="text-white text-lg font-medium">Home</a>
+              <a onClick={() => setMobileOpen(false)} href="#fees" className="text-white text-lg font-medium">Fees</a>
+              <a onClick={() => setMobileOpen(false)} href="#curriculum" className="text-white text-lg font-medium">Curriculum</a>
+              <a onClick={() => setMobileOpen(false)} href="#" className="text-white text-lg font-medium">About Us</a>
+            </nav>
+
+            <div className="mt-auto flex flex-col gap-3">
+              <a
+                href="#"
+                onClick={() => setMobileOpen(false)}
+                className="inline-flex items-center justify-center rounded-full bg-white text-black shadow font-medium px-4 py-3"
+              >
+                Contact Us
+              </a>
+              <a
+                href="#"
+                onClick={() => setMobileOpen(false)}
+                className="text-white/90 text-center px-4 py-3 rounded-full border border-white/20"
+              >
+                Learn More
+              </a>
+            </div>
+          </div>
+        </div>
 
         {/* Hero content */}
         <main className="relative z-10 max-w-7xl mx-auto px-6 pt-10 pb-0">
@@ -88,7 +142,7 @@ export default function App() {
                   Apply Now
                 </span>
                 <span className="w-10 h-10 rounded-full bg-black text-white inline-flex items-center justify-center">
-                  ↗
+                  <ArrowUpRight className="w-5" />
                 </span>
               </a>
               <a
@@ -115,55 +169,43 @@ export default function App() {
               Exists.
             </h2>
 
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <StaggerChildren className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex  items-start gap-4 reveal">
+                <div className="w-10 h-10 px-2.5 border border-gray-300/30 rounded-full bg-white/10 flex items-center justify-center text-white">
+                  <Navigation className="w-5" />
+                </div>
                 <div>
                   <h3 className="font-semibold text-white text-lg ">
-                    Environmentally Friendly
+                    Career Clarity
                   </h3>
                   <p className="text-sm ">
-                    Solar energy reduces greenhouse gases and air pollutants,
-                    helping combat climate change.
+                    Many young professionals struggle to find clear direction in
+                    the evolving energy space, and this program provides the
+                    guidance needed to choose a purposeful path.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4 fade-in fade-in-delay-400">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white">
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      x="4"
-                      y="4"
-                      width="16"
-                      height="16"
-                      rx="3"
-                      stroke="white"
-                      strokeOpacity="0.9"
-                      strokeWidth="1.2"
-                    />
-                  </svg>
+                <div className="w-10 h-10 px-2.5 border border-gray-300/30 rounded-full bg-white/10 flex items-center justify-center text-white">
+                  <Settings className="w-5" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg text-white ">
-                    Low Maintenance
+                    Skill Alignment
                   </h3>
                   <p className="text-sm ">
-                    Solar panels are durable, with low maintenance costs,
-                    requiring only occasional cleaning and minimal upkeep.
+                    Emerging talents often lack the right mix of technical and
+                    soft skills, and this program bridges that gap with focused
+                    learning and mentorship.
                   </p>
                 </div>
               </div>
-            </div>
+            </StaggerChildren>
           </div>
 
           {/* Right column: world-map image */}
-          <div className="order-1 flex-2 md:order-2 flex items-center justify-center">
+          <div className="order-1 flex-2 md:order-2 flex items-center fade-in justify-center">
             <div className="relative w-full max-w-xl">
               <img
                 src="/ayo.png"
@@ -171,10 +213,31 @@ export default function App() {
                 className="w-full rounded h-auto"
               />
               <div
-                className="absolute left-0 right-0 bottom-0 h-100 hero-fade"
+                className="absolute left-0 right-0 bottom-0 h-50 hero-fade"
                 style={{ zIndex: 5 }}
               >
-                hi
+                <div className="absolute w-full gap-15 bottom-9 left-4 flex items-center">
+                  <div className="pl-5">
+                    <h3 className="font-medium text-sm text-white ">
+                      Ayodeji Stephen
+                    </h3>
+                    <p className="text-xs font-light text-white/70 ">
+                      Founder, HydroGEM Advisory
+                    </p>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
+                  className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center text-xs transition transform duration-200 hover:scale-110 hover:shadow-md hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/20"
+                >
+                  <Linkedin className="w-3 h-3" />
+                </button>
+                    <button
+                  className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center text-xs transition transform duration-200 hover:scale-110 hover:shadow-md hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/20"
+                >
+                  <Mail className="w-3 h-3" />
+                </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -185,9 +248,9 @@ export default function App() {
         Ask Genius
       </button> */}
 
-        <div className="px-6 md:px-12">
-          <div className="relative flex gap-x-10 flex-col md:flex-row w-full m rounded-2xl bg-dark-v2 p-6 border border-white/10 shadow-lg overflow-hidden">
-            <div className="flex flex-1 flex-col">
+        <StaggerChildren className="px-6 md:px-12" >
+          <div id="fees" className="relative flex gap-x-10 flex-col md:flex-row w-full m rounded-2xl bg-dark-v2 p-6 border border-white/10 shadow-lg overflow-hidden">
+            <StaggerChildren className="flex flex-1 flex-col">
               {/* Subtle green glow in corner */}
               <span className="absolute top-0 left-0 w-32 h-32 bg-green-400/20 blur-2xl rounded-full z-0 pointer-events-none"></span>
 
@@ -215,13 +278,13 @@ export default function App() {
                 className="inline-flex justify-between my-6 w-full fade-in items-center rounded-full bg-gray-200 text-black shadow font-medium overflow-hidden px-1  fade-in-delay-200"
               >
                 <span className="pl-4 pr-3 py-3 inline-flex items-center">
-                  Apply Now
+                  Register Now!
                 </span>
                 <span className="w-10 h-10 rounded-full bg-black text-white inline-flex items-center justify-center">
-                  ↗
+                  <Users className="w-5" />
                 </span>
               </a>
-            </div>
+            </StaggerChildren>
 
             {/* Divider */}
             <div className="block md:hidden relative my-5">
@@ -240,7 +303,7 @@ export default function App() {
                 <div className="mb-5"></div>
               </div>
 
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+              <StaggerChildren className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 <li className="flex items-start gap-3 text-gray-300">
                   <span className="w-3 h-3 rounded-full bg-green-400 mt-[6px] flex-shrink-0" />
                   <div>
@@ -303,15 +366,18 @@ export default function App() {
                     </div>
                   </div>
                 </li>
-              </ul>
+              </StaggerChildren>
             </div>
           </div>
-        </div>
+        </StaggerChildren>
         {/* Brand logo horizontal slider (infinite scroll) */}
         <div>
-         <p className="text-gray-300 text-center">  Sledge Mentorship Program Partners</p>
-        <div className="w-full overflow-hidden py-3">
-          <style>{`
+          <p className="text-gray-300 text-center">
+            {" "}
+            Sledge Mentorship Program Partners
+          </p>
+          <div className="w-full overflow-hidden py-3">
+            <style>{`
             .marquee { overflow: hidden; }
             .marquee-track {
               display: flex;
@@ -332,69 +398,77 @@ export default function App() {
             }
           `}</style>
 
-          <div className="marquee" aria-hidden="false">
-            <div className="marquee-track" aria-hidden="true">
-              {/* first sequence */}
-              {Array.from({ length: 8 }).map((_, i) => (
-          <div key={`logo-a-${i}`} className="logo-wrap flex items-center">
-            <img
-              src="/logo-white.png"
-              alt="Brand logo"
-              className="h-12 opacity-90 block"
-              draggable={false}
-            />
-          </div>
-              ))}
+            <div className="marquee" aria-hidden="false">
+              <div className="marquee-track" aria-hidden="true">
+                {/* first sequence */}
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div
+                    key={`logo-a-${i}`}
+                    className="logo-wrap flex items-center"
+                  >
+                    <img
+                      src="/logo-white.png"
+                      alt="Brand logo"
+                      className="h-12 opacity-90 block"
+                      draggable={false}
+                    />
+                  </div>
+                ))}
 
-              {/* duplicate sequence for seamless loop */}
-              {Array.from({ length: 8 }).map((_, i) => (
-          <div key={`logo-b-${i}`} className="logo-wrap flex items-center">
-            <img
-              src="/logo-white.png"
-              alt=""
-              className="h-12 opacity-90 block"
-              aria-hidden="true"
-              draggable={false}
-            />
-          </div>
-              ))}
+                {/* duplicate sequence for seamless loop */}
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div
+                    key={`logo-b-${i}`}
+                    className="logo-wrap flex items-center"
+                  >
+                    <img
+                      src="/logo-white.png"
+                      alt=""
+                      className="h-12 opacity-90 block"
+                      aria-hidden="true"
+                      draggable={false}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-        </div>
-        
 
         {/* Quote + download section */}
         <div className="px-6 md:px-12 gap-10 flex flex-col-reverse text-gray-300 md:flex-row items-center">
-          <div className="flex-1 flex flex-col">
-           <p> Get a quick look at how the 6-week journey is structured. Each week
-            is intentionally designed to build your clarity, skills, and
-            confidence as you navigate your path in the energy sector. From
-            understanding the energy landscape to developing personal
-            visibility, every session delivers practical guidance, real-world
-            insights, and mentorship that helps you grow with purpose. </p>
-             <a
-                href="#"
-                 className="inline-flex fade-in w-fit mt-7 items-center rounded-full bg-white text-black shadow font-medium overflow-hidden px-1  fade-in-delay-200"
-              >
-                <span className="pl-4 pr-3 py-3 inline-flex items-center">
-                  Download
-                </span>
-                <span className="w-10 h-10 rounded-full bg-black text-white inline-flex items-center justify-center">
-                  <DownloadIcon className="w-5" />
-                </span>
-              </a>
-          </div>
+          <StaggerChildren className="flex-1 flex flex-col">
+            <p>
+              {" "}
+              Get a quick look at how the 6-week journey is structured. Each
+              week is intentionally designed to build your clarity, skills, and
+              confidence as you navigate your path in the energy sector. From
+              understanding the energy landscape to developing personal
+              visibility, every session delivers practical guidance, real-world
+              insights, and mentorship that helps you grow with purpose.{" "}
+            </p>
+            <a
+              href="#"
+              className="inline-flex fade-in w-fit mt-7 items-center rounded-full bg-white text-black shadow font-medium overflow-hidden px-1  fade-in-delay-200"
+            >
+              <span className="pl-4 pr-3 py-3 inline-flex items-center">
+                Download
+              </span>
+              <span className="w-10 h-10 rounded-full bg-black text-white inline-flex items-center justify-center">
+                <DownloadIcon className="w-5" />
+              </span>
+            </a>
+          </StaggerChildren>
           <div className="flex flex-col flex-1">
-          <p className="cursive-font gradient-text font-extrabold text-7xl">
-            “The future belongs to those who prepare for it today.”
-          </p>
-          <p className="text-end mt-4">~ Malcolm X</p>
+            <p className="cursive-font gradient-text font-extrabold text-7xl">
+              “The future belongs to those who prepare for it today.”
+            </p>
+            <p className="text-end mt-4">~ Malcolm X</p>
           </div>
         </div>
-        
-{/* Feature cards section (three dark panels) */}
-<FeatureCards />
+
+        {/* Feature cards section (three dark panels) */}
+        <FeatureCards />
       </div>
 
       <Footer />
