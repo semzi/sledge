@@ -11,6 +11,7 @@ type ReceiptResponse = {
   date_time: string;
   cohort?: string | null;
   subtotal: string; // e.g. "30.00"
+  vat?: string; // e.g. "2.00"
   total: string; // e.g. "30.00"
   currency: string; // e.g. "USD"
   registration_status?: string | null;
@@ -32,6 +33,7 @@ const PaymentReceipt: React.FC = () => {
     date_time: string;
     cohort: string | null;
     subtotal: string;
+    vat: string;
     total: string;
     currency: string;
     registration_status: string | null;
@@ -95,6 +97,7 @@ const PaymentReceipt: React.FC = () => {
           typeof d.date_time === "string" &&
           (typeof d.cohort === "string" || d.cohort === null || typeof d.cohort === "undefined") &&
           typeof d.subtotal === "string" &&
+          (typeof d.vat === "string" || typeof d.vat === "undefined") &&
           typeof d.total === "string" &&
           typeof d.currency === "string" &&
           (typeof d.registration_status === "string" || d.registration_status === null || typeof d.registration_status === "undefined");
@@ -111,6 +114,7 @@ const PaymentReceipt: React.FC = () => {
           date_time: d.date_time,
           cohort: d.cohort ?? "2026",
           subtotal: d.subtotal,
+          vat: d.vat ?? "0.00",
           total: d.total,
           currency: d.currency,
           registration_status: d.registration_status ?? null,
@@ -126,12 +130,10 @@ const PaymentReceipt: React.FC = () => {
     load();
   }, [rid, sessionId]);
 
-  const createdAt = receipt?.date_time ? new Date(receipt.date_time) : new Date();
-  const name = receipt?.name ?? "-";
-  const email = receipt?.email ?? "-";
-  const cohort = receipt?.cohort ?? "-";
+  const dateTimeText = receipt?.date_time ? new Date(receipt.date_time).toLocaleString() : "-";
 
   const subtotalNum = Number.parseFloat(receipt?.subtotal ?? "0");
+  const vatNum = Number.parseFloat(receipt?.vat ?? "0");
   const totalNum = Number.parseFloat(receipt?.total ?? "0");
   const currency = receipt?.currency ?? "USD";
 
@@ -167,7 +169,14 @@ const PaymentReceipt: React.FC = () => {
     const y = (pageHeight - renderHeight) / 2;
 
     pdf.addImage(imgData, "PNG", x, y, renderWidth, renderHeight);
-    pdf.save(`payment-receipt-${Date.now()}.pdf`);
+
+    const rawName = (receipt?.name ?? '').trim();
+    const safeName = (rawName || 'User')
+      .replace(/[\\/:*?"<>|]+/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    const fileName = `${safeName} - Sledge Mentorship 2026 Receipt.pdf`;
+    pdf.save(fileName);
   };
 
   return (
@@ -208,6 +217,7 @@ const PaymentReceipt: React.FC = () => {
                       </svg>
                     </div>
                   </div>
+
                   <div className="mt-4 text-sm" style={{ color: "rgba(255,255,255,0.70)" }}>
                     Payment Success
                   </div>
@@ -216,34 +226,43 @@ const PaymentReceipt: React.FC = () => {
                 <div className="mt-7 space-y-4">
                   <div className="flex items-center justify-between text-xs">
                     <div style={{ color: "rgba(255,255,255,0.60)" }}>Name</div>
-                    <div style={{ color: "rgba(255,255,255,0.90)", maxWidth: 220, textAlign: "right" }} className="truncate">
-                      {name}
+                    <div
+                      style={{ color: "rgba(255,255,255,0.90)", textAlign: "right" }}
+                      className="max-w-[220px] text-right whitespace-normal break-words"
+                    >
+                      {receipt?.name ?? "-"}
                     </div>
                   </div>
                   <div className="border-t border-dashed" style={{ borderColor: "rgba(255,255,255,0.15)" }} />
                   <div className="flex items-center justify-between text-xs">
                     <div style={{ color: "rgba(255,255,255,0.60)" }}>Email</div>
-                    <div style={{ color: "rgba(255,255,255,0.90)", maxWidth: 220, textAlign: "right" }} className="truncate">
-                      {email}
+                    <div
+                      style={{ color: "rgba(255,255,255,0.90)", textAlign: "right" }}
+                      className="max-w-[220px] text-right whitespace-normal break-all"
+                    >
+                      {receipt?.email ?? "-"}
                     </div>
                   </div>
                   <div className="border-t border-dashed" style={{ borderColor: "rgba(255,255,255,0.15)" }} />
                   <div className="flex items-center justify-between text-xs">
                     <div style={{ color: "rgba(255,255,255,0.60)" }}>Date & time</div>
-                    <div style={{ color: "rgba(255,255,255,0.90)" }}>{createdAt.toLocaleString()}</div>
+                    <div style={{ color: "rgba(255,255,255,0.90)", textAlign: "right" }}>{dateTimeText}</div>
                   </div>
                   <div className="border-t border-dashed" style={{ borderColor: "rgba(255,255,255,0.15)" }} />
                   <div className="flex items-center justify-between text-xs">
                     <div style={{ color: "rgba(255,255,255,0.60)" }}>Cohort</div>
-                    <div style={{ color: "rgba(255,255,255,0.90)" }}>{cohort}</div>
+                    <div style={{ color: "rgba(255,255,255,0.90)", textAlign: "right" }}>{receipt?.cohort ?? "-"}</div>
                   </div>
-                </div>
 
-                <div className="mt-7 space-y-4">
                   <div className="border-t border-dashed" style={{ borderColor: "rgba(255,255,255,0.15)" }} />
                   <div className="flex items-center justify-between text-xs">
                     <div style={{ color: "rgba(255,255,255,0.60)" }}>Subtotal</div>
                     <div style={{ color: "rgba(255,255,255,0.90)" }}>${Number.isFinite(subtotalNum) ? subtotalNum.toFixed(2) : "0.00"}</div>
+                  </div>
+                  <div className="border-t border-dashed" style={{ borderColor: "rgba(255,255,255,0.15)" }} />
+                  <div className="flex items-center justify-between text-xs">
+                    <div style={{ color: "rgba(255,255,255,0.60)" }}>VAT</div>
+                    <div style={{ color: "rgba(255,255,255,0.90)" }}>${Number.isFinite(vatNum) ? vatNum.toFixed(2) : "0.00"}</div>
                   </div>
                   <div className="border-t border-dashed" style={{ borderColor: "rgba(255,255,255,0.15)" }} />
                   <div className="flex items-center justify-between pt-1">

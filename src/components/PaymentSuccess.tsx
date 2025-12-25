@@ -95,12 +95,14 @@ export default function PaymentSuccess() {
                   >
                     Back to Home
                   </Link>
-                  <Link
-                    to={`/payment-receipt${rid ? `?rid=${encodeURIComponent(rid)}` : ""}`}
-                    className="inline-flex items-center justify-center rounded-full bg-gradient-to-b from-[#10d406] to-[#1d5a05] text-white shadow font-medium px-6 py-3"
-                  >
-                    View Receipt
-                  </Link>
+                  {status === "success" && rid ? (
+                    <Link
+                      to={`/payment-receipt?rid=${encodeURIComponent(rid)}`}
+                      className="inline-flex items-center justify-center rounded-full bg-gradient-to-b from-[#10d406] to-[#1d5a05] text-white shadow font-medium px-6 py-3"
+                    >
+                      View Receipt
+                    </Link>
+                  ) : null}
                   <Link
                     to="/contact"
                     className="inline-flex items-center justify-center rounded-full bg-black/30 border border-white/15 text-white shadow font-medium px-6 py-3"

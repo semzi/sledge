@@ -149,6 +149,9 @@ const AdminDashboard = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [data, setData] = useState<AdminDashboardResponse | null>(null);
+    const [receiptEmail, setReceiptEmail] = useState('');
+    const [receiptLoading, setReceiptLoading] = useState(false);
+    const [receiptError, setReceiptError] = useState<string | null>(null);
 
     useEffect(() => {
       let cancelled = false;
@@ -187,6 +190,39 @@ const AdminDashboard = () => {
     const pending = data?.registrations.pending ?? 0;
     const paid = data?.registrations.paid_usd ?? 0;
 
+    const generateReceipt = async () => {
+      const email = receiptEmail.trim();
+      if (!email) {
+        setReceiptError('Email is required');
+        return;
+      }
+
+      setReceiptLoading(true);
+      setReceiptError(null);
+      try {
+        const res = await fetch(`${API_BASE}/admin-receipt-lookup.php`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+
+        const json = (await res.json().catch(() => null)) as any;
+        if (!res.ok || !json || json.success !== true) {
+          throw new Error(json?.message || 'Failed to generate receipt');
+        }
+
+        const rid = String(json.registration_id ?? '');
+        if (!rid) throw new Error('Missing registration id');
+
+        const receiptUrl = `/payment-receipt?rid=${encodeURIComponent(rid)}`;
+        window.open(receiptUrl, '_blank', 'noopener,noreferrer');
+      } catch (e) {
+        setReceiptError(e instanceof Error ? e.message : 'Failed to generate receipt');
+      } finally {
+        setReceiptLoading(false);
+      }
+    };
+
     return (
       <div className="space-y-6">
         {error && (
@@ -219,6 +255,34 @@ const AdminDashboard = () => {
             <h2 className="text-3xl gradient-text font-bold text-white">{loading ? '—' : pending}</h2>
             <p className="text-gray-300 text-sm">Awaiting verification</p>
           </div>
+        </div>
+
+        <div className="bg-dark-v2 border border-white/20 rounded-lg shadow-xl p-6">
+          <div className="flex flex-col md:flex-row md:items-end gap-3">
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-white">Generate receipt</h3>
+              <p className="text-sm text-white/70">Enter a user email. Only verified registrations can generate a receipt.</p>
+            </div>
+          </div>
+
+          <div className="mt-3 grid grid-cols-1 md:grid-cols-4 gap-3">
+            <input
+              value={receiptEmail}
+              onChange={(e) => setReceiptEmail(e.target.value)}
+              placeholder="Email"
+              className="px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/40 focus:outline-none md:col-span-3"
+            />
+            <button
+              type="button"
+              onClick={generateReceipt}
+              disabled={receiptLoading}
+              className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/15 disabled:opacity-50 disabled:cursor-not-allowed text-white"
+            >
+              {receiptLoading ? 'Checking…' : 'Generate'}
+            </button>
+          </div>
+
+          {receiptError && <div className="mt-3 text-sm text-red-400">{receiptError}</div>}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -609,13 +673,21 @@ const AdminDashboard = () => {
     };
 
     const deleteItem = async (id: string) => {
+      const numericId = Number(id);
+      if (!Number.isFinite(numericId) || numericId <= 0) {
+        setError('Invalid schedule id');
+        return;
+      }
       setSaving(true);
       setError(null);
       try {
-        const res = await fetch(`${API_BASE}/schedule.php`, {
+        const url = new URL(`${API_BASE}/schedule.php`);
+        url.searchParams.set('id', String(numericId));
+
+        const res = await fetch(url.toString(), {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: Number(id) }),
+          body: JSON.stringify({ id: numericId }),
         });
 
         const json = (await res.json().catch(() => null)) as any;

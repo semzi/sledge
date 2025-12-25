@@ -3,7 +3,26 @@
 const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function initInView() {
-  if (typeof window === 'undefined' || prefersReducedMotion) return;
+  if (typeof window === 'undefined') return;
+
+  const showAll = () => {
+    document.querySelectorAll<HTMLElement>('.reveal').forEach((el) => {
+      el.classList.add('in-view');
+      el.style.transitionDelay = '0ms';
+    });
+  };
+
+  // If user prefers reduced motion, don't animate; just show content.
+  if (prefersReducedMotion) {
+    showAll();
+    return;
+  }
+
+  // Fallback for browsers/environments without IntersectionObserver support.
+  if (typeof (window as any).IntersectionObserver === 'undefined') {
+    showAll();
+    return;
+  }
 
   const observer = new IntersectionObserver(
     (entries, obs) => {

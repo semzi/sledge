@@ -41,8 +41,8 @@ export default function RegisterPage() {
   const bgUrl = "/hero.png";
 
   const subtotal = 30;
-  const tax = 0;
-  const total = 30;
+  const tax = 2;
+  const total = 32;
 
   const interestOptions = useMemo(
     () => ["Renewable Energy", "Hydrogen", "E-mobility", "Energy Policy", "Clean Technologies", "Other"],
