@@ -48,7 +48,7 @@ professionals. Over time, the program will expand to include:</p>
             return (
               <article
                 key={card.title}
-                className={`reveal rounded-2xl p-6 shadow-lg hover:scale-[1.02] transform transition duration-300 bg-gradient-to-br ${
+                className={`reveal rounded-2xl pt-0 shadow-lg hover:scale-[1.02] transform transition duration-300 bg-gradient-to-br ${
                   gradientClasses[i % gradientClasses.length]
                 } border ${i === 2 ? "border-neutral-200/40" : "border-white/6"}`}
                 aria-labelledby={`feature-${i}`}
@@ -56,26 +56,26 @@ professionals. Over time, the program will expand to include:</p>
                 <div className="mb-4 w-full h-70 rounded-md overflow-hidden flex items-center justify-center">
                   {/* Mock screenshot area; keep subtle contrast against card background */}
                   <div
-                    className={`w-11/12 h-full rounded-md border ${
+                    className={`w-full h-full rounded-md border ${
                       i === 2 ? "border-neutral-200/40 bg-white/90" : "border-white/6 bg-black/10"
                     }`}
                   />
                 </div>
 
-                <h4 id={`feature-${i}`} className={`text-lg ${textColor} font-semibold mb-2`}>
+                <h4 id={`feature-${i}`} className={`px-6 text-lg ${textColor} font-semibold mb-2`}>
                   {card.title}
                 </h4>
-                <p className={`text-sm ${subTextColor} mb-4`}>{card.desc}</p>
+                <p className={ ` px-6 text-sm ${subTextColor} mb-4`}>{card.desc}</p>
 
-                <div className="flex items-center justify-between">
+                <div className="flex  items-center justify-between">
                   <a
                     href="#"
-                    className={`text-sm ${i === 2 ? "text-neutral-800/90" : "text-white/90"} font-medium inline-flex items-center gap-2`}
+                    className={`px-6 mb-6 text-sm ${i === 2 ? "text-neutral-800/90" : "text-white/90"} font-medium inline-flex items-center gap-2`}
                   >
                     Learn more
                     <span className={`inline-block w-5 h-5 rounded-full ${i === 2 ? "bg-neutral-800/6 text-neutral-800" : "bg-white/8 text-white"} flex items-center justify-center`}>↗</span>
                   </a>
-                </div>
+                </div> 
               </article>
             );
           })}

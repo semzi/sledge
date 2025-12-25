@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Twitter, Youtube, Github } from "lucide-react";
+import { Facebook, Instagram, Twitter, Youtube, Github, X, Linkedin } from "lucide-react";
 export default function Footer() {
   return (
     <footer className="mt-10">
@@ -60,19 +60,19 @@ export default function Footer() {
             <div className="flex items-center justify-start gap-3">
               {/* social icons as small circles */}
               {[
-                { Icon: Facebook, label: "Facebook" },
-                { Icon: Instagram, label: "Instagram" },
-                { Icon: Twitter, label: "Twitter" },
-                { Icon: Youtube, label: "YouTube" },
-                { Icon: Github, label: "GitHub" },
-              ].map(({ Icon, label }, i) => (
-                <button
+                { Icon: Instagram, label: "Instagram", href: "https://www.instagram.com/thesledgementorshipprogram_?igsh=MWsxbWRqaXVnbDYyNg%3D%3D&utm_source=qr" },
+                { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/company/the-sledge-mentorship-program/" },
+              ].map(({ Icon, label, href }, i) => (
+                <a
                   key={i}
                   aria-label={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center text-xs transition transform duration-200 hover:scale-110 hover:shadow-md hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/20"
                 >
                   <Icon className="w-4 h-4" />
-                </button>
+                </a>
               ))}
             </div>
           </div>
