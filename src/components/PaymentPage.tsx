@@ -3,8 +3,6 @@ import {
   Mail,
   Phone,
   MapPin,
-  Globe,
-  MessageSquare,
 } from "lucide-react";
 import Header from "./Header";
 import Footer from "./Footer";
