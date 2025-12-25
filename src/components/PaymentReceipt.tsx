@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import { apiUrl } from "../lib/api";
 
 type ReceiptResponse = {
   registration_id?: string;
@@ -51,9 +52,11 @@ const PaymentReceipt: React.FC = () => {
         // Optional verify step (recommended on success page)
         // If you don't want verification here, you can remove this block.
         if (sessionId) {
-          const verifyRes = await fetch(
-            `https://api.sledgementorship.com/api/verify-payment.php?rid=${encodeURIComponent(rid)}&session_id=${encodeURIComponent(sessionId)}`
-          );
+          const verifyUrl = new URL(apiUrl("/verify-payment.php"));
+          verifyUrl.searchParams.set("rid", rid);
+          verifyUrl.searchParams.set("session_id", sessionId);
+
+          const verifyRes = await fetch(verifyUrl.toString());
 
           const verifyJson = (await verifyRes.json().catch(() => null)) as unknown;
 
@@ -69,7 +72,7 @@ const PaymentReceipt: React.FC = () => {
         }
 
         // Fetch receipt from DB (POST rid only)
-        const res = await fetch("https://api.sledgementorship.com/api/receipt.php", {
+        const res = await fetch(apiUrl("/receipt.php"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ rid }),

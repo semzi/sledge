@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import PhoneInput from "../lib/phoneInput";
+import { apiUrl } from "../lib/api";
 
 type RegisterResponse = {
   checkout_url?: string;
@@ -132,7 +133,7 @@ export default function RegisterPage() {
         cancel_url: "https://sledgementorship.com/register?canceled=1",
       };
 
-      const res = await fetch("https://api.sledgementorship.com/api/register.php", {
+      const res = await fetch(apiUrl("/register.php"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Home from './components/Home';
 import AdminLogin from './components/AdminLogin';
@@ -27,6 +27,12 @@ function ScrollToHash() {
   return null;
 }
 
+function RequireAdmin({ children }: { children: ReactNode }) {
+  const session = localStorage.getItem('admin_session');
+  if (!session) return <Navigate to="/login" replace />;
+  return <>{children}</>;
+}
+
 export default function App() {
   return (
     <Router>
@@ -41,7 +47,14 @@ export default function App() {
         <Route path="/program" element={<Program />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <RequireAdmin>
+              <AdminDashboard />
+            </RequireAdmin>
+          }
+        />
       </Routes>
     </Router>
   );

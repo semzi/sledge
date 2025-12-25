@@ -1,74 +1,61 @@
+import { useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import { API_BASE } from "../lib/api";
 
 type ScheduleItem = {
+  id: string;
   week: string;
   theme: string;
-  keyLearningFocus: string;
+  key_learning_focus: string;
   facilitator: string;
-  tentativeDates: string;
+  tentative_date: string;
 };
 
-const SCHEDULE: ScheduleItem[] = [
-  {
-    week: "1",
-    theme: "Understanding the Energy Ecosystem",
-    keyLearningFocus:
-      "Mapping opportunities across the energy value chain, identifying niche areas for growth.",
-    facilitator: "Ayodeji Stephen",
-    tentativeDates: "21st February 2026",
-  },
-  {
-    week: "2",
-    theme: "Upskilling and Reskilling for the Future",
-    keyLearningFocus:
-      "Identifying the right technical and soft skills needed for the 21st-century energy professional.",
-    facilitator: "Ayodeji Stephen",
-    tentativeDates: "28th February 2026",
-  },
-  {
-    week: "3",
-    theme: "Time and Opportunity Management",
-    keyLearningFocus:
-      "Building productivity habits, goal-setting, and balancing career demands.",
-    facilitator: "Chinenye Ajayi",
-    tentativeDates: "7th March 2026",
-  },
-  {
-    week: "4",
-    theme: "Asking the Right Questions as a Young Professional",
-    keyLearningFocus:
-      "Framing meaningful questions to mentors, employers, and peers for career growth.",
-    facilitator: "TBD",
-    tentativeDates: "14th March 2026",
-  },
-  {
-    week: "5",
-    theme: "What Next? Crafting Your Career Pathway",
-    keyLearningFocus:
-      "Developing personalised action plans and roadmaps for continued growth.",
-    facilitator: "Chibunna Ogbonna",
-    tentativeDates: "21st March 2026",
-  },
-  {
-    week: "6",
-    theme: "Building Visibility and Networks + Accessing Global Opportunities",
-    keyLearningFocus:
-      "Personal branding, LinkedIn optimisation, and leveraging global opportunities.",
-    facilitator: "Ayodeji Stephen",
-    tentativeDates: "28th March, 2026",
-  },
-  {
-    week: "7",
-    theme: "Special Guest Appearance",
-    keyLearningFocus:
-      "The Future of Energy: Opportunities for Young Leaders and Innovators",
-    facilitator: "Mr Biodun Ogunleye",
-    tentativeDates: "29th March, 2025",
-  },
-];
-
 export default function Schedule() {
+  const [items, setItems] = useState<ScheduleItem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const load = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const res = await fetch(`${API_BASE}/schedule.php`);
+        const json = (await res.json().catch(() => null)) as any;
+
+        if (!res.ok || !json || !Array.isArray(json.items)) {
+          throw new Error("Failed to load schedule");
+        }
+
+        const mapped = (json.items as any[]).map((it) => ({
+          id: String(it.id),
+          week: String(it.week ?? ""),
+          theme: String(it.theme ?? ""),
+          key_learning_focus: String(it.key_learning_focus ?? ""),
+          facilitator: String(it.facilitator ?? ""),
+          tentative_date: String(it.tentative_date ?? ""),
+        }));
+
+        if (!cancelled) setItems(mapped);
+      } catch (e) {
+        if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load schedule");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    load();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <div className="min-h-screen relative font-poppins bg-[#09090b] text-white">
       <Header />
@@ -85,6 +72,12 @@ export default function Schedule() {
         </div>
 
         <section className="mt-8">
+          {error && (
+            <div className="mb-4 rounded-xl border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-200">
+              {error}
+            </div>
+          )}
+
           {/* Desktop table */}
           <div className="hidden md:block overflow-x-auto rounded-xl border border-white/10 bg-white/5">
             <table className="min-w-full text-left">
@@ -98,35 +91,42 @@ export default function Schedule() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/10">
-                {SCHEDULE.map((item) => (
-                  <tr key={item.week} className="text-sm text-white/80">
+                {items.map((item) => (
+                  <tr key={item.id} className="text-sm text-white/80">
                     <td className="px-4 py-4 align-top font-medium text-white">
                       {item.week}
                     </td>
                     <td className="px-4 py-4 align-top">{item.theme}</td>
-                    <td className="px-4 py-4 align-top">{item.keyLearningFocus}</td>
+                    <td className="px-4 py-4 align-top">{item.key_learning_focus}</td>
                     <td className="px-4 py-4 align-top">{item.facilitator}</td>
                     <td className="px-4 py-4 align-top whitespace-nowrap">
-                      {item.tentativeDates}
+                      {item.tentative_date}
                     </td>
                   </tr>
                 ))}
+                {!loading && items.length === 0 && (
+                  <tr>
+                    <td className="px-4 py-6 text-sm text-white/70" colSpan={5}>
+                      No schedule items yet.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
 
           {/* Mobile cards */}
           <div className="md:hidden flex flex-col gap-4">
-            {SCHEDULE.map((item) => (
+            {items.map((item) => (
               <div
-                key={item.week}
+                key={item.id}
                 className="rounded-xl border border-white/10 bg-white/5 p-4"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div className="text-sm font-semibold text-white">
                     Week {item.week}
                   </div>
-                  <div className="text-xs text-white/70">{item.tentativeDates}</div>
+                  <div className="text-xs text-white/70">{item.tentative_date}</div>
                 </div>
 
                 <div className="mt-3">
@@ -134,7 +134,7 @@ export default function Schedule() {
                     {item.theme}
                   </div>
                   <div className="mt-2 text-sm text-white/75 leading-relaxed">
-                    {item.keyLearningFocus}
+                    {item.key_learning_focus}
                   </div>
                 </div>
 
@@ -144,6 +144,12 @@ export default function Schedule() {
                 </div>
               </div>
             ))}
+
+            {!loading && items.length === 0 && (
+              <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/70">
+                No schedule items yet.
+              </div>
+            )}
           </div>
         </section>
       </main>

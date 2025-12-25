@@ -1,14 +1,47 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Mail, Lock } from 'lucide-react';
+import { apiUrl } from '../lib/api';
 
 const AdminLogin = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login attempt with:', { email, password });
-    // Implement actual login logic here
+    setSubmitting(true);
+    setError(null);
+
+    try {
+      const res = await fetch(apiUrl('/auth.php'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = (await res.json().catch(() => null)) as any;
+
+      if (!res.ok || !data || data.success !== true) {
+        setError(typeof data?.message === 'string' ? data.message : 'Login failed. Please try again.');
+        return;
+      }
+
+      localStorage.setItem('admin_session', JSON.stringify({
+        admin: data.admin,
+        created_at: new Date().toISOString(),
+      }));
+
+      navigate('/admin/dashboard');
+    } catch {
+      setError('Network error. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -62,16 +95,19 @@ const AdminLogin = () => {
             </div>
           </div>
 
-          <div className="flex justify-end mb-6">
-            <a href="#" className="text-sm text-blue-400 hover:underline">Forgot password?</a>
-          </div>
-
           <button
             type="submit"
-            className="w-full bg-gradient-to-b from-[#10d406] to-[#1d5a05] hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition duration-200"
+            disabled={submitting}
+            className="w-full bg-gradient-to-b from-[#10d406] to-[#1d5a05] hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium py-3 rounded-lg transition duration-200"
           >
-            Login
+            {submitting ? 'Logging in…' : 'Login'}
           </button>
+
+          {error && (
+            <div className="mt-4 text-sm text-red-400">
+              {error}
+            </div>
+          )}
         </form>
       </div>
     </div>

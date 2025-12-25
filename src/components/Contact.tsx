@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Mail, Phone, Send } from "lucide-react";
 import Header from "./Header";
 import Footer from "./Footer";
+import { apiUrl } from "../lib/api";
 
 export default function Contact() {
   const [name, setName] = useState("");
@@ -25,7 +26,7 @@ export default function Contact() {
 
     setSubmitting(true);
     try {
-      const res = await fetch("https://api.sledgementorship.com/api/contact.php", {
+      const res = await fetch(apiUrl("/contact.php"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

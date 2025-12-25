@@ -3,6 +3,7 @@ import { CheckCircle2, XCircle } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import { apiUrl } from "../lib/api";
 
 export default function PaymentSuccess() {
   const [searchParams] = useSearchParams();
@@ -22,11 +23,11 @@ export default function PaymentSuccess() {
       }
 
       try {
-        const url = `https://api.sledgementorship.com/api/verify-payment.php?rid=${encodeURIComponent(
-          rid
-        )}&session_id=${encodeURIComponent(sessionId)}`;
+        const url = new URL(apiUrl("/verify-payment.php"));
+        url.searchParams.set("rid", rid);
+        url.searchParams.set("session_id", sessionId);
 
-        const res = await fetch(url);
+        const res = await fetch(url.toString());
         await res.json().catch(() => ({}));
         setStatus(res.ok ? "success" : "error");
       } catch (err) {
