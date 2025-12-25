@@ -128,8 +128,8 @@ export default function RegisterPage() {
         confirm_commitment: confirmCommitment,
         agree_payment: agreePayment,
         registration_status: "pending",
-        success_url: "http://localhost:5173/payment-success",
-        cancel_url: "http://localhost:5173/register?canceled=1",
+        success_url: "https://sledgementorship.com/payment-success",
+        cancel_url: "https://sledgementorship.com/register?canceled=1",
       };
 
       const res = await fetch("https://api.sledgementorship.com/api/register.php", {
