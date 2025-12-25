@@ -14,7 +14,7 @@ export default function FeatureCards() {
                Long-Term 
               Vision.
             </h2>
-            <p className="text-gray-300 max-w-[50vw]">The Sledge aims to become Africa’s most influential mentorship network for early-career energy
+            <p className="text-gray-300 md:max-w-[50vw]">The Sledge aims to become Africa’s most influential mentorship network for early-career energy
 professionals. Over time, the program will expand to include:</p>
 </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
