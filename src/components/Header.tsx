@@ -35,7 +35,7 @@ export default function Header() {
             `${navLinkBase} hover:underline ${isActive ? navLinkActive : ""}`
           }
         >
-          Fee
+          Registration
         </NavLink>
         <NavLink
           to="/schedule"
@@ -124,7 +124,7 @@ export default function Header() {
                 `text-lg font-medium ${isActive ? "text-white" : "text-white"}`
               }
             >
-              Fee
+              Registration
             </NavLink>
             <NavLink
               to="/schedule"

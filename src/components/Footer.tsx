@@ -16,9 +16,6 @@ export default function Footer() {
               </p>
             </div>
 
-            <p className="text-xs text-white/60">
-              Terms &nbsp; Privacy &nbsp; Cookies &nbsp; Legal &nbsp; Recalls
-            </p>
           </div>
 
           {/* Right column - email + address + social */}
@@ -39,20 +36,15 @@ export default function Footer() {
 
             <div className="grid grid-cols-2 gap-4 text-sm text-white/80">
               <div>
-                <h5 className="font-medium mb-2">Contact</h5>
+                <a href="/contact" target="_blank"><h5 className="font-medium mb-2">Contact</h5></a>  
                 <ul className="space-y-2">
-                  <li>Community</li>
-                  <li>Knowledge base</li>
-                  <li>Academy</li>
-                  <li>Support</li>
+                  <a href="/schedule" target="_blank"><li>Schedule</li></a>
                 </ul>
               </div>
               <div>
-                <h5 className="font-medium mb-2">Address</h5>
+                <h5 className="font-medium mb-2">Email</h5>
                 <p className="text-sm text-white/70">
-                  475 Cherry Dr, Troy, Michigan 46546 United States
-                  <br />
-                  (258) 525–2353
+                  <a href="mailto:info@sledgementorship.com">info@sledgementorship.com</a>
                 </p>
               </div>
             </div>

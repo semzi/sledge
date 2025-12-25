@@ -152,7 +152,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <div className="text-sm text-white/60">Email</div>
-                  <div className="text-white">info@thesledge.org</div>
+                  <div className="text-white"> <a href="mailto:info@sledgementorship.com" >info@sledgementorship.com</a></div>
                 </div>
               </div>
 
@@ -166,17 +166,6 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-sm text-white/60">Address</div>
-                  <div className="text-white">
-                    475 Cherry Dr, Troy, Michigan 46546 United States
-                  </div>
-                </div>
-              </div>
             </div>
 
             <div className="mt-8 rounded-xl bg-black/20 border border-white/10 p-4 text-sm text-white/70">

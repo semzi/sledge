@@ -1,4 +1,4 @@
-import { ArrowUpRight, Linkedin, Mail, Navigation, Settings } from "lucide-react";
+import { ArrowUpRight, Navigation, Settings } from "lucide-react";
 import ScrollToTopButton from "@/lib/scroll";
 import { Link } from "react-router-dom"; // Import Link
 import Footer from "./Footer";
@@ -136,11 +136,11 @@ export default function Home() {
                       Ayodeji Stephen
                     </h3>
                     <p className="text-xs font-light text-white/70 ">
-                      Founder, HydroGEM Advisory
+                      Founder & Coordinator, Sledge Mentorship Program
                     </p>
                   </div>
                   <div className="flex gap-3">
-                    <button
+                    {/* <button
                   className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center text-xs transition transform duration-200 hover:scale-110 hover:shadow-md hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/20"
                 >
                   <Linkedin className="w-3 h-3" />
@@ -149,7 +149,7 @@ export default function Home() {
                   className="w-6 h-6 rounded-full bg-white text-black flex items-center justify-center text-xs transition transform duration-200 hover:scale-110 hover:shadow-md hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white/20"
                 >
                   <Mail className="w-3 h-3" />
-                </button>
+                </button> */}
                   </div>
                 </div>
               </div>
@@ -211,6 +211,12 @@ export default function Home() {
                       className="h-12 opacity-90 block"
                       draggable={false}
                     />
+                    <img
+                      src="/brave.png"
+                      alt="Brand logo"
+                      className="h-12 opacity-90 block"
+                      draggable={false}
+                    />
                   </div>
                 ))}
 
@@ -229,6 +235,13 @@ export default function Home() {
                     />
                     <img
                       src="/hydrogem.png"
+                      alt=""
+                      className="h-12 opacity-90 block"
+                      aria-hidden="true"
+                      draggable={false}
+                    />
+                    <img
+                      src="/brave.png"
                       alt=""
                       className="h-12 opacity-90 block"
                       aria-hidden="true"

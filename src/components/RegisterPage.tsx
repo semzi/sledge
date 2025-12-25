@@ -298,7 +298,7 @@ export default function RegisterPage() {
 
               <div>
                 <label className="block text-sm text-white/80 mb-2">
-                  6. Current Status <span className="text-red-400">*</span>
+                  6. Current Education Level <span className="text-red-400">*</span>
                 </label>
                 <input
                   value={currentStatus}
