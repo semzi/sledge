@@ -132,7 +132,7 @@ export default function RegisterPage() {
         cancel_url: "http://localhost:5173/register?canceled=1",
       };
 
-      const res = await fetch("http://api.sledgementorship.com/api/register.php", {
+      const res = await fetch("https://api.sledgementorship.com/api/register.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

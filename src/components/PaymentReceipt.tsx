@@ -52,7 +52,7 @@ const PaymentReceipt: React.FC = () => {
         // If you don't want verification here, you can remove this block.
         if (sessionId) {
           const verifyRes = await fetch(
-            `http://api.sledgementorship.com/api/verify-payment.php?rid=${encodeURIComponent(rid)}&session_id=${encodeURIComponent(sessionId)}`
+            `https://api.sledgementorship.com/api/verify-payment.php?rid=${encodeURIComponent(rid)}&session_id=${encodeURIComponent(sessionId)}`
           );
 
           const verifyJson = (await verifyRes.json().catch(() => null)) as unknown;
@@ -69,7 +69,7 @@ const PaymentReceipt: React.FC = () => {
         }
 
         // Fetch receipt from DB (POST rid only)
-        const res = await fetch("http://api.sledgementorship.com/api/receipt.php", {
+        const res = await fetch("https://api.sledgementorship.com/api/receipt.php", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ rid }),

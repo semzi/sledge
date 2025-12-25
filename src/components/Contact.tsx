@@ -25,7 +25,7 @@ export default function Contact() {
 
     setSubmitting(true);
     try {
-      const res = await fetch("http://api.sledgementorship.com/api/contact.php", {
+      const res = await fetch("https://api.sledgementorship.com/api/contact.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

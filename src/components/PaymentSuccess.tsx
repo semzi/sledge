@@ -22,7 +22,7 @@ export default function PaymentSuccess() {
       }
 
       try {
-        const url = `http://api.sledgementorship.com/api/verify-payment.php?rid=${encodeURIComponent(
+        const url = `https://api.sledgementorship.com/api/verify-payment.php?rid=${encodeURIComponent(
           rid
         )}&session_id=${encodeURIComponent(sessionId)}`;
 
