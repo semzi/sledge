@@ -4,8 +4,8 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import PhoneInput from "../lib/phoneInput";
 
 export default function PaymentPage() {

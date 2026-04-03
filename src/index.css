@@ -3,6 +3,7 @@
 @plugin "tailwindcss-animate";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Beau+Rivage&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 @tailwind utilities;
@@ -132,9 +133,13 @@
   * {
     @apply border-border outline-ring/50;
 	}
+  .text-grad {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-white via-white/90 to-white/60
+	}
   body {
     @apply bg-[#09090b] text-foreground;
 	}
+
 }
 
 /* Fade-in animation utilities */
@@ -224,3 +229,155 @@
   pointer-events: none;
   background: linear-gradient(180deg, rgba(0,0,0,0) 60%, var(--background) 100%);
 }
+
+/* Hero glow blob animations */
+@keyframes glowDrift1 {
+  0%, 100% {
+    transform: translate(-50%, -33%) scale(1);
+    opacity: 0.8;
+  }
+  33% {
+    transform: translate(-35%, -20%) scale(1.25);
+    opacity: 1;
+  }
+  66% {
+    transform: translate(-55%, -38%) scale(0.9);
+    opacity: 0.7;
+  }
+}
+
+@keyframes glowDrift2 {
+  0%, 100% {
+    transform: translateX(25%) scale(1);
+    opacity: 0.7;
+  }
+  40% {
+    transform: translateX(10%) scale(1.3);
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(30%) scale(0.85);
+    opacity: 0.6;
+  }
+}
+
+@keyframes glowDrift3 {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-35%, -55%) scale(1.35);
+    opacity: 1;
+  }
+}
+
+/* Left-to-right background reveal for highlighted spans */
+@keyframes bgRevealLTR {
+  from { background-size: 0% 100%; }
+  to   { background-size: 100% 100%; }
+}
+
+.bg-reveal-ltr {
+  background-image: linear-gradient(#127312, #127312);
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 0% 100%;
+  animation: bgRevealLTR 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  /* strip the old solid bg — color is now via background-image */
+  background-color: transparent !important;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(34, 197, 94, 0.3);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 197, 94, 0.5);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-effect::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 70%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.premium-button {
+  background: linear-gradient(135deg, #052e16 0%, #14532d 30%, #166534 50%, #14532d 70%, #052e16 100%);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.15), inset 0 -1px 2px rgba(0,0,0,0.4), 0 2px 20px rgba(22,101,52,0.5);
+  transition: all 0.3s ease;
+}
+
+.premium-button:hover {
+  transform: scale(1.02);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.2), inset 0 -1px 2px rgba(0,0,0,0.5), 0 4px 25px rgba(22,101,52,0.6);
+}
+
+@keyframes mesh-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-mesh {
+  background: linear-gradient(-45deg, #09090b, #052e16, #09090b, #14532d);
+  background-size: 400% 400%;
+  animation: mesh-gradient 15s ease infinite;
+}
+
+/* Premium Mesh Blob Background */
+.mesh-bg {
+  background-color: #09090b;
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(142, 70%, 15%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(142, 60%, 10%, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(142, 70%, 15%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 50% 50%, hsla(142, 60%, 5%, 0.1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(142, 70%, 15%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, hsla(142, 60%, 10%, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(142, 70%, 15%, 0.15) 0px, transparent 50%);
+  position: relative;
+  overflow: hidden;
+}
+
+.mesh-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(16, 212, 6, 0.05), transparent 50%);
+  animation: mesh-pulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes mesh-pulse {
+  from { transform: scale(1); opacity: 0.3; }
+  to { transform: scale(1.5); opacity: 0.6; }
+}
+

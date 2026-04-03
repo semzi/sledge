@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Mail, Phone, Send } from "lucide-react";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { apiUrl } from "../lib/api";
+import SEO from "../components/SEO";
 
 export default function Contact() {
   const [name, setName] = useState("");
@@ -59,10 +60,15 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen relative font-poppins bg-[#09090b] text-white">
+      <SEO 
+        title="Contact Us"
+        description="Have questions about Sledge Mentorship? Get in touch with our team for inquiries about programs, fees, or scheduling."
+        keywords="contact Sledge, mentorship inquiries, tech program support"
+      />
       <Header />
 
       <main className="relative z-10 max-w-7xl mx-auto px-6 pb-10">
-        <div className="pt-6 md:pt-10">
+        <header className="pt-6 md:pt-10">
           <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">
             Contact Us
           </h1>
@@ -70,7 +76,7 @@ export default function Contact() {
             Have questions about the program, fees, or schedule? Send a message
             and we’ll respond.
           </p>
-        </div>
+        </header>
 
         <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
           <section className="rounded-2xl bg-white/5 border border-white/10 p-6">

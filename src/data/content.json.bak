@@ -1,0 +1,119 @@
+{
+  "programs": {
+    "mentorship": {
+      "title": "The SLEDGE Mentorship Journey",
+      "subtitle": "Structured Coherency",
+      "price": 30,
+      "priceUsd": 30,
+      "priceNgn": 50000,
+      "priceUnit": "/ cohort",
+      "duration": "6 weeks",
+      "intensity": "6 Weeks Intensity",
+      "cohortSize": 50,
+      "cohortsPerYear": 3,
+      "mode": "Virtual (via Google Meet)",
+      "mentor": "Ayodeji Stephen and a host of other seasoned Energy Professionals",
+      "outcome": "Certificate of Completion + One-on-one mentorship session",
+      "heroDesc": "A structured six-week learning experience designed to develop clarity, confidence, and professional capacity.",
+      "desc1": "The mentorship program runs as a structured six-week learning experience designed to develop clarity, confidence, and professional capacity.",
+      "desc2": "Each week focuses on practical insights and strategic discussions that help participants strengthen their career trajectory.",
+      "featuresLabel": "Participants will engage in:",
+      "features": [
+        "Mentorship sessions",
+        "Leadership discussions",
+        "Professional development workshops",
+        "Practical learning projects",
+        "Networking opportunities"
+      ],
+      "ctaText": "Join the Mentorship",
+      "ctaLink": "/program",
+      "isPopular": false,
+      "isNew": false
+    },
+    "oneOnOne": {
+      "title": "ONE-ON-ONE MENTORSHIP",
+      "subtitle": "Book a Private Mentorship Session",
+      "priceUsd": 50,
+      "priceNgn": 75000,
+      "desc1": "Individuals seeking deeper career guidance can schedule a private one-on-one mentorship session with Ayodeji Adekanbi Stephen.",
+      "desc2": "",
+      "featuresLabel": "These sessions provide personalized support for:",
+      "features": [
+        "Career strategy",
+        "Leadership development",
+        "Professional growth",
+        "Entrepreneurship guidance"
+      ],
+      "ctaText": "Book a Session",
+      "ctaLink": "/book-a-session",
+      "isPopular": true,
+      "isNew": true
+    },
+    "plus": {
+      "title": "SLEDGE +",
+      "subtitle": "The Advanced Track",
+      "price": 100,
+      "priceUsd": 100,
+      "priceNgn": 150000,
+      "priceUnit": "/ quarter",
+      "duration": "3 months",
+      "intensity": "3 Months Program",
+      "heroDesc": "An elite track for high-impact professionals seeking strategic leadership and advanced mentorship.",
+      "desc1": "SLEDGE Plus is an advanced mentorship and professional development track designed for mid-career professionals, entrepreneurs, and emerging leaders seeking deeper career guidance and strategic growth.",
+      "desc2": "This program provides a community of ambitious professionals committed to learning, collaboration, and innovation.",
+      "featuresLabel": "Members will gain access to:",
+      "features": [
+        "Advanced mentorship sessions",
+        "Business and leadership strategy discussions",
+        "Entrepreneurial guidance",
+        "Peer collaboration and professional networking",
+        "Strategic career coaching"
+      ],
+      "ctaText": "Apply for SLEDGE Plus",
+      "ctaLink": "/plus",
+      "isPopular": false,
+      "isNew": true
+    }
+  },
+  "about": {
+    "badge": "Why SLEDGE Exists",
+    "title": "Empowering the Next Generation of Leaders.",
+    "description": "The program brings together experts, professionals, and emerging leaders to share knowledge, build skills, and create pathways for global opportunities.",
+    "features": [
+      {
+        "title": "Career Clarity",
+        "description": "Many students and young professionals struggle to find direction in an increasingly complex professional landscape. SLEDGE helps participants gain clarity about their strengths, interests, and career pathways."
+      },
+      {
+        "title": "Skill Alignment",
+        "description": "Professional success requires more than technical knowledge. SLEDGE equips participants with the soft skills, strategic thinking, and professional awareness needed to thrive in any industry."
+      },
+      {
+        "title": "Mentorship Access",
+        "description": "Many talented individuals lack access to mentors who can guide them through critical career decisions. SLEDGE bridges that gap by connecting participants with experienced professionals and industry leaders."
+      }
+    ]
+  },
+  "futureForward": {
+    "badge": "Future Forward",
+    "title": "Long-Term Vision.",
+    "description": "SLEDGE aims to become Africa’s most influential mentorship network for early-career energy professionals. Over time, the program will expand to include these core initiatives.",
+    "items": [
+      {
+        "title": "The SLEDGE Plus",
+        "description": "An advanced professional track for in-depth coaching and project collaboration.",
+        "image": "/4md.jpg"
+      },
+      {
+        "title": "Annual Alumni Summit",
+        "description": "Showcasing success stories, impactful partnerships, and global networking.",
+        "image": "/1md.png"
+      },
+      {
+        "title": "Scholarship & Internships",
+        "description": "Directly connecting talented mentees with global career opportunities.",
+        "image": "/3md.jpg"
+      }
+    ]
+  }
+}

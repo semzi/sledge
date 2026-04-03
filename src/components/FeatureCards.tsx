@@ -1,87 +1,63 @@
-import { useEffect } from "react";
+import { ArrowRight } from "lucide-react";
+import { useContent } from "../contexts/ContentContext";
 
 export default function FeatureCards() {
-  useEffect(() => {
-    // runtime debug: confirm this component mounts in the browser
-    console.log("FeatureCards mounted");
-  }, []);
+  const { content, loading } = useContent();
+
+  if (loading || !content) return null;
+  const { futureForward } = content;
 
   return (
-    <section className="px-6 md:px-12 py-12" >
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-7">
-          <h2 className="text-4xl  sm:text-5xl md:text-5xl font-bold  leading-[1.03] mb-2 gradient-text">
-            Long-Term
-            Vision.
+    <section className="px-6 md:px-12 relative z-10 w-full" >
+      <div className="max-w-[85rem] mx-auto">
+        <div className="text-center w-full max-w-3xl mx-auto mb-16 lg:mb-20">
+          <div className="inline-block bg-green-500/10 text-green-400 border border-green-500/20 rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide uppercase mb-6 backdrop-blur-md">
+            {futureForward.badge}
+          </div>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium leading-[1.15] mb-4 text-grad">
+            {futureForward.title}
           </h2>
-          <p className="text-gray-300 md:max-w-[50vw]">The Sledge aims to become Africa’s most influential mentorship network for early-career energy
-            professionals. Over time, the program will expand to include:</p>
+          <p className="text-base text-white/60 leading-relaxed max-w-2xl mx-auto">
+            {futureForward.description}
+          </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              title: "The Sledge Plus",
-              desc:
-                "an advanced professional track for in-depth coaching and project collaboration",
-              image: "/4md.jpg",
-            },
-            {
-              title: "Annual Alumni Summit",
-              desc:
-                "showcasing success stories, partnerships, and impact.",
-              image: "/1md.png",
-            },
-            {
-              title: "Scholarship and Internship Linkages",
-              desc:
-                " connecting mentees with global opportunities.",
-              image: "/3md.jpg",
-            },
-          ].map((card, i) => {
-            // Per-card gradient presets (gold, green, white)
-            const gradientClasses = [
-              "from-yellow-500 via-yellow-300 to-yellow-800",
-              "from-emerald-400 via-emerald-500 to-emerald-600",
-              "from-white/95 via-white/80 to-neutral-200/70",
-            ];
 
-            const textColor = i === 2 ? "text-black" : "text-white";
-            const subTextColor = i === 2 ? "text-neutral-800" : "text-gray-100";
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {futureForward.items.map((card: any, i: number) => (
+            <article
+              key={card.title}
+              className="group flex flex-col relative rounded-[2rem] bg-white/5 border border-white/5 hover:border-white/10 hover:bg-white/[0.07] overflow-hidden transition-all duration-300"
+              aria-labelledby={`feature-${i}`}
+            >
+              <div className="w-full h-48 relative overflow-hidden bg-[#050505]">
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="w-full h-full object-cover filter contrast-[1.05] grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 opacity-80 group-hover:opacity-100"
+                  loading="lazy"
+                />
+              </div>
 
-            return (
-              <article
-                key={card.title}
-                className={`reveal rounded-2xl pt-0 shadow-lg hover:scale-[1.02] transform transition duration-300 bg-gradient-to-br ${gradientClasses[i % gradientClasses.length]
-                  } border ${i === 2 ? "border-neutral-200/40" : "border-white/6"}`}
-                aria-labelledby={`feature-${i}`}
-              >
-                <div className="mb-4 w-full h-70 overflow-hidden rounded-t-2xl">
-                  {/* Mock screenshot area; keep subtle contrast against card background */}
-                  <img
-                    src={card.image}
-                    alt={card.title}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-
-                <h4 id={`feature-${i}`} className={`px-6 text-lg ${textColor} font-semibold mb-2`}>
+              <div className="p-8 sm:p-10 flex-1 flex flex-col">
+                <h4 id={`feature-${i}`} className="text-xl text-white font-semibold mb-3 tracking-tight group-hover:text-green-300 transition-colors duration-300">
                   {card.title}
                 </h4>
-                <p className={` px-6 text-sm ${subTextColor} mb-4`}>{card.desc}</p>
+                <p className="text-sm text-white/60 leading-relaxed mb-8 flex-1">
+                  {card.description}
+                </p>
 
-                <div className="flex  items-center justify-between">
+                <div className="mt-auto">
                   <a
                     href="#"
-                    className={`px-6 mb-6 text-sm ${i === 2 ? "text-neutral-800/90" : "text-white/90"} font-medium inline-flex items-center gap-2`}
+                    className="inline-flex items-center gap-2 text-sm text-white/50 font-medium hover:text-green-400 transition-colors duration-300 group/link"
                   >
-                    Learn more
-                    <span className={`inline-block w-5 h-5 rounded-full ${i === 2 ? "bg-neutral-800/6 text-neutral-800" : "bg-white/8 text-white"} flex items-center justify-center`}>↗</span>
+                    Explore
+                    <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
                   </a>
                 </div>
-              </article>
-            );
-          })}
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
