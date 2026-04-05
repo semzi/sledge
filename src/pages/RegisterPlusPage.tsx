@@ -18,6 +18,7 @@ type RegisterResponse = {
 };
 
 import { CONFIG } from "../lib/config";
+import SEO from "../components/SEO";
 
 export default function RegisterPlusPage() {
   const [searchParams] = useSearchParams();
@@ -216,6 +217,11 @@ export default function RegisterPlusPage() {
 
   return (
     <div className="min-h-screen relative font-poppins bg-[#09090b] text-white animate-mesh">
+      <SEO 
+        title="Apply for Sledge Plus+"
+        description="Apply for Sledge Plus membership to access advanced leadership training and exclusive professional opportunities."
+        keywords="Sledge Plus application, leadership mentorship, premium tech network"
+      />
       <Header />
 
       <main className="relative z-10 px-6 md:px-12 py-10">

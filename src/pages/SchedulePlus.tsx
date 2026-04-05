@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import SEO from "../components/SEO";
 import { API_BASE } from "../lib/api";
 import { Calendar, ChevronRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -62,6 +63,11 @@ export default function SchedulePlus() {
 
   return (
     <div className="min-h-screen relative font-poppins bg-[#050505] text-white flex flex-col overflow-x-hidden">
+      <SEO 
+        title="Sledge Plus Schedule"
+        description="Explore the advanced curriculum and timeline for Sledge Plus. High-impact trajectory for professional leaders."
+        keywords="plus schedule, advanced mentorship roadmap, leadership training"
+      />
       {/* Background Decorative Elements */}
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vh] bg-green-500/5 blur-[120px] rounded-full"></div>

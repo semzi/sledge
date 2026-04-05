@@ -15,9 +15,9 @@ export default function Program() {
   return (
     <div className="min-h-screen relative font-poppins bg-[#09090b] text-white">
       <SEO 
-        title="Fees & Program Details"
-        description="Explore the fees, duration, and outcomes of the Sledge Mentorship program. Start your professional journey today."
-        keywords="mentorship fees, tech program details, career outcomes"
+        title="Fees & Program Outcomes | Sledge Mentorship"
+        description="Get detailed information about Sledge Mentorship fees, program duration, upcoming cohorts, and professional career outcomes."
+        keywords="mentorship fees, program duration, career outcomes, Sledge Mentorship"
       />
       <Header />
 

@@ -32,9 +32,9 @@ export default function SledgeMentorship() {
   return (
     <div className="relative min-h-[100svh] font-poppins bg-[#050505] overflow-x-hidden flex flex-col pb-0 text-white">
       <SEO 
-        title="Sledge Mentorship Program"
-        description="Transform your career with the Sledge Mentorship program. Expert-led training, community support, and industry-standard skills."
-        keywords="mentorship, tech career, professional growth, Sledge Mentorship"
+        title="Mentorship Program | The Sledge Professional Roadmap"
+        description="Transform your career with the Sledge Mentorship program. Expert-led training, community support, and industry-standard skills for professional tech growth."
+        keywords="mentorship program, career transformation, tech training, professional skills, Sledge Mentorship"
         schemaData={schemaData}
       />
       <ScrollToTopButton />

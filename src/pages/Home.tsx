@@ -1,6 +1,6 @@
 import Hero from "../components/Hero";
 import About from "../components/About";
-import Partners from "./Partners"; // Partners is in pages
+import Partners from "../components/PartnersSection"; // use the section here
 import ProgramsCards from "../components/ProgramsCards";
 import Founder from "../components/Founder";
 import Quote from "../components/Quote";
@@ -13,9 +13,9 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Accelerate Your Tech Career"
-        description="Join Sledge Mentorship to connect with industry experts, gain hands-on experience, and accelerate your journey in the global professional tech ecosystem."
-        keywords="tech mentorship, career growth, coding bootcamp, professional development, Sledge Mentorship"
+        title="Accelerate Your Tech Career with Sledge Mentorship"
+        description="Join Sledge Mentorship to connect with industry experts, gain hands-on experience, and accelerate your journey in the global professional tech ecosystem. Start your transformation today."
+        keywords="tech mentorship, professional tech career, career growth, coding mentorship, Sledge Mentorship"
       />
       <main id="main-content">
         <Hero />

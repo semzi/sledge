@@ -1,88 +1,35 @@
-import React from 'react';
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import SEO from "../components/SEO";
+import PartnersSection from "../components/PartnersSection";
 
-const Partners: React.FC = () => {
+export default function Partners() {
   return (
-    <div id="partners" className="mb-5">
-      <p className="text-gray-300 text-center"> Sledge Mentorship Program Partners</p>
-      <div className="w-full overflow-hidden py-3">
-        <style>{`
-          .marquee { overflow: hidden; }
-          .marquee-track {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-            will-change: transform;
-            animation: marquee 20s linear infinite;
-          }
-          .marquee-track:hover { animation-play-state: paused; }
-          .marquee-track .logo-wrap { flex: 0 0 auto; }
-
-          @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-        `}</style>
-
-        <div className="marquee" aria-hidden="false">
-          <div className="marquee-track" aria-hidden="true">
-            {/* first sequence */}
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={`logo-a-${i}`} className="logo-wrap flex items-center">
-                <img
-                  src="/hydrogem.png"
-                  alt="Hydrogem Logo"
-                  loading="lazy"
-                  className="h-12 opacity-90 block"
-                  draggable={false}
-                />
-                <img
-                  src="/ahf.png"
-                  alt="AHF Logo"
-                  loading="lazy"
-                  className="h-12 opacity-90 block"
-                  draggable={false}
-                />
-                <img
-                  src="/brave.png"
-                  alt="Brave Logo"
-                  loading="lazy"
-                  className="h-12 opacity-90 block"
-                  draggable={false}
-                />
-              </div>
-            ))}
-
-            {/* duplicate sequence for seamless loop */}
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={`logo-b-${i}`} className="logo-wrap flex items-center">
-                <img
-                  src="/ahf.png"
-                  alt="AHF Logo"
-                  loading="lazy"
-                  className="h-12 opacity-90 block"
-                  draggable={false}
-                />
-                <img
-                  src="/hydrogem.png"
-                  alt="Hydrogem Logo"
-                  loading="lazy"
-                  className="h-12 opacity-90 block"
-                  draggable={false}
-                />
-                <img
-                  src="/brave.png"
-                  alt="Brave Logo"
-                  loading="lazy"
-                  className="h-12 opacity-90 block"
-                  draggable={false}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+    <div className="min-h-screen relative font-poppins bg-[#050505] text-white flex flex-col">
+      <SEO 
+        title="Our Strategic Partners"
+        description="Collaborating with industry leaders to shape the future of energy and mentorship globally."
+        keywords="mentorship partners, Sledge partners, industry collaboration"
+      />
+      
+      <div className="relative z-50 w-full flex-shrink-0">
+        <Header />
       </div>
+
+      <main className="relative z-10 flex-grow pt-24 md:pt-32 pb-20">
+        <header className="max-w-7xl mx-auto px-6 mb-16 text-center">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight gradient-text mb-6">
+            Our Strategic Partners
+          </h1>
+          <p className="max-w-3xl mx-auto text-lg text-white/60 leading-relaxed">
+            We collaborate with industry visionaries and organizations globally to provide high-impact mentorship and professional career growth.
+          </p>
+        </header>
+        
+        <PartnersSection />
+      </main>
+
+      <Footer />
     </div>
   );
-};
-
-export default Partners;
+}

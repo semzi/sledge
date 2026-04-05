@@ -18,6 +18,7 @@ type RegisterResponse = {
 };
 
 import { CONFIG } from "../lib/config";
+import SEO from "../components/SEO";
 
 export default function RegisterPage() {
   const [searchParams] = useSearchParams();
@@ -199,6 +200,11 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen relative font-poppins bg-[#09090b] text-white animate-mesh">
+      <SEO 
+        title="Apply for Mentorship"
+        description="Apply for the upcoming Sledge Mentorship cohort. Join a community of driven professionals and start your tech career transformation."
+        keywords="mentorship application, Sledge registration, join mentorship"
+      />
       <Header />
 
       <main className="relative z-10 px-6 md:px-12 py-10">

@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import ScrollToTopButton from "@/lib/scroll";
 import SessionBookingStepper from "../components/SessionBookingStepper";
 import { useContent } from "../contexts/ContentContext";
+import SEO from "../components/SEO";
 
 export default function BookSession() {
   const { content, loading } = useContent();
@@ -24,6 +25,11 @@ export default function BookSession() {
 
   return (
     <div className="relative min-h-[100svh] font-poppins bg-[#050505] overflow-x-hidden flex flex-col text-white">
+      <SEO 
+        title="Book a Private Session"
+        description="Schedule a personalized one-on-one mentorship session with industry experts to discuss your career strategy and professional goals."
+        keywords="book session, one-on-one mentorship, career coaching, Sledge Mentorship"
+      />
       <ScrollToTopButton />
 
       {/* Background glows */}

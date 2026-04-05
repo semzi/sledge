@@ -1,9 +1,15 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-[100svh] font-poppins bg-[#050505] text-white flex flex-col overflow-x-hidden">
+      <SEO 
+        title="Privacy Policy"
+        description="Learn how Sledge Mentorship protects your personal information and manages data privacy."
+        keywords="privacy policy, data protection, Sledge Mentorship"
+      />
       <div className="relative z-50 w-full flex-shrink-0">
         <Header />
       </div>

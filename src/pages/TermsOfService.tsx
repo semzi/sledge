@@ -1,9 +1,15 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 
 export default function TermsOfService() {
   return (
     <div className="min-h-[100svh] font-poppins bg-[#050505] text-white flex flex-col overflow-x-hidden">
+      <SEO 
+        title="Terms and Conditions"
+        description="Review the terms and conditions for using the Sledge Mentorship platform and participating in our programs."
+        keywords="terms of service, legal, Sledge Mentorship"
+      />
       <div className="relative z-50 w-full flex-shrink-0">
         <Header />
       </div>
