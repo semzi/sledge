@@ -2,7 +2,7 @@
  * Sledge Application Configuration
  * Change the MODE to 'production' for live deployment, or 'development' for local testing.
  */
-const MODE: 'development' | 'production' = 'development';
+const MODE: 'development' | 'production' = 'production';
 
 const development = {
   API_BASE: "http://localhost/sledge/api",
@@ -18,5 +18,5 @@ const production = {
   PAYSTACK_PUBLIC_KEY: "pk_test_1e566a7dc7986976288652153dde39f8ff406ea4", // REPLACE WITH YOUR LIVE KEY
 };
 
-export const CONFIG = MODE === 'development' ? development : production;
+export const CONFIG = MODE === 'production' ? development : production;
 export default CONFIG;
