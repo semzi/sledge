@@ -330,15 +330,29 @@ export default function SessionBookingStepper({ onCancel, onConfirmed }: { onCan
     if (e.key === 'Backspace' && !verificationCode[i] && i > 0) document.getElementById(`code-${i - 1}`)?.focus();
   };
 
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const pasteData = e.clipboardData.getData('text').trim().slice(0, 6).split('');
+    if (pasteData.length > 0 && pasteData.every(char => /^\d$/.test(char))) {
+      const newCode = [...verificationCode];
+      pasteData.forEach((char, index) => {
+        if (index < 6) newCode[index] = char;
+      });
+      setVerificationCode(newCode);
+      // Focus the last filled input or the first one if empty
+      const focusIndex = Math.min(pasteData.length, 5);
+      document.getElementById(`code-${focusIndex}`)?.focus();
+    }
+  };
+
   /* ── Step content ── */
   const renderStep = () => {
     switch (currentStep) {
 
       /* Step 0 – Date & Time */
       case 0: return (
-        <div className="flex flex-col gap-4 h-full">
+        <div className="flex flex-col gap-4 flex-1 min-h-0">
           <div>
-            <p className="text-[11px] font-semibold text-white/40 uppercase tracking-widest mb-2">Available Dates</p>
+            <p className="text-[10px] font-semibold text-white/40 uppercase tracking-widest mb-1.5">Available Dates</p>
             <div className="flex gap-2 overflow-x-auto pb-1 custom-scrollbar">
               {upcomingDates.map((date, idx) => {
                 const sel = selectedDate?.toDateString() === date.toDateString();
@@ -359,9 +373,9 @@ export default function SessionBookingStepper({ onCancel, onConfirmed }: { onCan
 
           <AnimatePresence>
             {selectedDate && (
-              <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="border-t border-white/10 pt-4">
-                <div className="flex justify-between items-center mb-2">
-                  <p className="text-[11px] font-semibold text-white/40 uppercase tracking-widest">Available Times</p>
+              <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="border-t border-white/10 pt-3">
+                <div className="flex justify-between items-center mb-1.5">
+                  <p className="text-[10px] font-semibold text-white/40 uppercase tracking-widest">Available Times</p>
                   <p className="text-[10px] text-white/30">All times in GMT+1</p>
                 </div>
                 <div className="grid grid-cols-4 gap-2">
@@ -411,7 +425,7 @@ export default function SessionBookingStepper({ onCancel, onConfirmed }: { onCan
         const fmtTime = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
         const isExpired = countdown === 0 && !otpSending;
         return (
-          <div className="flex flex-col items-center gap-5 py-2">
+          <div className="flex flex-col items-center gap-4 py-1">
             {/* Icon */}
             <motion.div
               animate={otpSuccess ? { scale: [1, 1.15, 1], borderColor: ['rgba(34,197,94,0.3)', 'rgba(34,197,94,0.8)', 'rgba(34,197,94,0.3)'] } : {}}
@@ -442,7 +456,9 @@ export default function SessionBookingStepper({ onCancel, onConfirmed }: { onCan
               {verificationCode.map((digit, i) => (
                 <input key={i} id={`code-${i}`} type="text" inputMode="numeric" maxLength={1} value={digit}
                   disabled={otpSending || otpSuccess}
-                  onChange={e => handleCode(i, e.target.value)} onKeyDown={e => handleCodeKey(i, e)}
+                  onChange={e => handleCode(i, e.target.value)} 
+                  onKeyDown={e => handleCodeKey(i, e)}
+                  onPaste={handlePaste}
                   className={`w-10 h-12 bg-white/[0.04] border rounded-xl text-center text-lg font-bold focus:outline-none transition-all
                     ${ otpError ? 'border-red-500/50 text-red-400 focus:border-red-500'
                       : otpSuccess ? 'border-green-500/60 text-green-400'
@@ -506,7 +522,7 @@ export default function SessionBookingStepper({ onCancel, onConfirmed }: { onCan
       case 3: {
         // session details are shown from CMS content (oneOnOne)
         return (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {/* Mini summary */}
             <div className="flex items-center justify-between bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3">
               <div>
@@ -627,11 +643,11 @@ export default function SessionBookingStepper({ onCancel, onConfirmed }: { onCan
   const progressPct = (currentStep / (STEPS.length - 1)) * 100;
 
   return (
-    <div className="flex flex-col h-full w-full">
+    <div className="flex flex-col flex-1 min-h-0 w-full">
 
       {/* ── Header: step indicator ── */}
       {!isConfirmed && (
-        <div className="flex-shrink-0 px-1 pb-5">
+        <div className="flex-shrink-0 px-1 pb-3">
           {/* Labels */}
           <div className="flex justify-between mb-3">
             {STEPS.map((s, i) => (
@@ -656,7 +672,7 @@ export default function SessionBookingStepper({ onCancel, onConfirmed }: { onCan
       <div className="flex-1 overflow-y-auto custom-scrollbar min-h-0">
         {/* Step heading */}
         {!isConfirmed && (
-          <div className="mb-4">
+          <div className="mb-3">
             <h3 className="text-lg font-semibold text-white leading-tight">
               {currentStep === 0 && 'Pick a Date & Time'}
               {currentStep === 1 && 'Your Details'}
@@ -682,7 +698,7 @@ export default function SessionBookingStepper({ onCancel, onConfirmed }: { onCan
       </div>
 
       {/* ── Footer Nav ── */}
-      <div className="flex-shrink-0 pt-4 mt-2 border-t border-white/8 flex justify-between items-center">
+      <div className="flex-shrink-0 pt-3 mt-1 border-t border-white/8 flex justify-between items-center">
         {isConfirmed ? (
           <div className="w-full grid grid-cols-2 gap-3">
             <button 

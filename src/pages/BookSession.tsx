@@ -60,8 +60,7 @@ export default function BookSession() {
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.96, y: 16, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="relative w-full max-w-lg bg-[#080808] border border-white/10 rounded-3xl shadow-[0_32px_80px_rgba(0,0,0,0.7)] overflow-hidden flex flex-col"
-              style={{ maxHeight: 'calc(100vh - 2rem)' }}
+              className="relative w-full max-w-lg bg-[#080808] border border-white/10 rounded-3xl shadow-[0_32px_80px_rgba(0,0,0,0.7)] flex flex-col min-h-0 h-fit max-h-[85vh] sm:max-h-[90vh] overflow-hidden"
             >
               {/* Decorative corner glows */}
               <div className="absolute top-0 right-0 w-48 h-48 bg-green-500/6 blur-[80px] rounded-full pointer-events-none" />
@@ -84,8 +83,8 @@ export default function BookSession() {
                 </button>
               </div>
 
-              {/* Stepper */}
-              <div className="flex-1 min-h-0 px-6 py-5">
+              {/* Stepper container — enforced height constraint for children */}
+              <div className="flex-1 min-h-0 px-4 sm:px-6 py-4 sm:py-5 flex flex-col overflow-hidden">
                 <SessionBookingStepper
                   onCancel={() => { setShowStepper(false); setIsConfirmed(false); }}
                   onConfirmed={() => setIsConfirmed(true)}

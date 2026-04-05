@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <SEO
-        title="Accelerate Your Tech Career with Sledge Mentorship"
+        title="Find Your Place In The Global Professional Ecosystem"
         description="Join Sledge Mentorship to connect with industry experts, gain hands-on experience, and accelerate your journey in the global professional tech ecosystem. Start your transformation today."
         keywords="tech mentorship, professional tech career, career growth, coding mentorship, Sledge Mentorship"
       />

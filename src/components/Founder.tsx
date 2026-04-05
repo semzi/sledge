@@ -3,27 +3,27 @@ import { Linkedin, Twitter, Mail } from 'lucide-react';
 
 const Founder: React.FC = () => {
   return (
-    <section className="relative z-10 mx-auto px-6 md:px-10 mb-5 lg:mb-5">
-      <div className="flex flex-col lg:flex-row bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.5)] relative">
+    <section className="relative z-10 mx-auto px-4 md:px-10 mb-5 lg:mb-10">
+      <div className="flex flex-col lg:flex-row bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/5 rounded-3xl lg:rounded-[2.5rem] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.5)] relative">
         {/* Ambient Background Glow inside card */}
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-green-500/10 blur-[120px] rounded-full pointer-events-none"></div>
 
         {/* Text Side */}
-        <div className="flex-1 p-8 sm:p-12 md:p-16 order-2 lg:order-1 flex flex-col justify-center relative z-10 w-full lg:w-[55%]">
-          <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-white rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide uppercase mb-8 w-fit backdrop-blur-md shadow-sm">
+        <div className="flex-1 p-6 sm:p-12 md:p-16 order-2 lg:order-1 flex flex-col justify-center relative z-10 w-full lg:w-[55%]">
+          <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-white rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide uppercase mb-6 lg:mb-8 w-fit backdrop-blur-md shadow-sm">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
             Meet The Founder
           </div>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] text-grad mb-4 tracking-tight leading-[1.1]">
+          <h2 className="text-3xl sm:text-5xl lg:text-[3.5rem] text-grad mb-3 lg:mb-4 tracking-tight leading-[1.1]">
             Ayodeji
-            <br className="hidden sm:block" /> Adekanbi Stephen
+            <br className="hidden sm:block" /> Stephen
           </h2>
-          <p className="text-green-400 font-medium mb-8 text-xl tracking-wide flex items-center gap-3">
+          <p className="text-green-400 font-medium mb-6 lg:mb-8 text-lg lg:text-xl tracking-wide flex items-center gap-3">
             Founder & Coordinator, SLEDGE
           </p>
 
-          <div className="space-y-6 text-white/70 leading-relaxed text-sm lg:text-base mb-10">
+          <div className="space-y-4 lg:space-y-6 text-white/70 leading-relaxed text-sm lg:text-base mb-8 lg:mb-10">
             <p>
               Ayodeji is an energy policy researcher, mentor, and thought leader passionate about
               developing the next generation of professional talent.
@@ -61,7 +61,7 @@ const Founder: React.FC = () => {
         </div>
 
         {/* Image Side */}
-        <div className="flex-1 relative order-1 lg:order-2 min-h-[400px] lg:min-h-[600px] w-full lg:w-[45%]">
+        <div className="flex-1 relative order-1 lg:order-2 min-h-[320px] lg:min-h-[600px] w-full lg:w-[45%]">
           <img
             src="/ayo.png"
             alt="Ayodeji Adekanbi Stephen"
