@@ -40,10 +40,10 @@ const Hero: React.FC = () => {
               S
             </div>
             <div className="w-6 h-6 rounded-full bg-neutral-900 border border-white/30 flex items-center justify-center text-[10px] z-20 text-white font-bold">
-              L
+              M
             </div>
             <div className="w-6 h-6 rounded-full bg-green-950 border border-green-500/50 flex items-center justify-center text-[10px] text-green-300 font-bold z-10">
-              E
+              P
             </div>
           </div>
           <span className="text-xs md:text-sm text-white/80 font-medium pr-2 tracking-wide">

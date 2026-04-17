@@ -57,6 +57,14 @@ export default function Header() {
           Schedule
         </NavLink>
         <NavLink
+          to="/roadmap"
+          className={({ isActive }) =>
+            `${navLinkBase} ${isActive ? navLinkActive : ""}`
+          }
+        >
+          Roadmap
+        </NavLink>
+        <NavLink
           to="/contact"
           className={({ isActive }) =>
             `${navLinkBase} ${isActive ? navLinkActive : ""}`
@@ -88,9 +96,8 @@ export default function Header() {
 
       <div
         id="mobile-menu"
-        className={`md:hidden fixed inset-0 z-[9999] transition-transform duration-300 ${
-          mobileOpen ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className={`md:hidden fixed inset-0 z-[9999] transition-transform duration-300 ${mobileOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
         aria-hidden={!mobileOpen}
       >
         <div className="absolute inset-0 bg-black/85 backdrop-blur-sm p-6 flex flex-col">
@@ -125,10 +132,10 @@ export default function Header() {
             >
               About
             </Link>
-            
+
             <div className="flex flex-col text-white">
-              <button 
-                onClick={() => setProgramsOpen(!programsOpen)} 
+              <button
+                onClick={() => setProgramsOpen(!programsOpen)}
                 className="text-lg font-medium flex items-center justify-between w-full text-left"
               >
                 Programs
@@ -144,6 +151,7 @@ export default function Header() {
 
             <NavLink to="/schedule" onClick={() => setMobileOpen(false)} className="text-lg font-medium text-white">Schedule</NavLink>
             <NavLink to="/program" onClick={() => setMobileOpen(false)} className="text-lg font-medium text-white">Apply</NavLink>
+            <NavLink to="/roadmap" onClick={() => setMobileOpen(false)} className="text-lg font-medium text-white">Roadmap</NavLink>
             <NavLink to="/contact" onClick={() => setMobileOpen(false)} className="text-lg font-medium text-white">Contact</NavLink>
           </nav>
 

@@ -2,7 +2,7 @@
  * Sledge Application Configuration
  * Change the MODE to 'production' for live deployment, or 'development' for local testing.
  */
-const MODE: 'development' | 'production' = 'production';
+const MODE: string = 'production'; // 'development' | 'production'
 
 const development = {
   API_BASE: "http://localhost/sledge/api",

@@ -5,6 +5,7 @@ import ProgramsCards from "../components/ProgramsCards";
 import Founder from "../components/Founder";
 import Quote from "../components/Quote";
 import FeatureCards from "../components/FeatureCards";
+import Testimonials from "../components/Testimonials";
 import Newsletter from "../components/Newsletter";
 import Footer from "../components/Footer";
 import SEO from "../components/SEO";
@@ -25,6 +26,7 @@ export default function Home() {
           <ProgramsCards />
           <Founder />
           <Quote />
+          <Testimonials />
           <FeatureCards />
           <Newsletter />
         </div>

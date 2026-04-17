@@ -1,5 +1,5 @@
-import { 
-  Clock, 
+import {
+  Clock,
   CheckCircle2,
   ChevronRight,
   Sparkles
@@ -31,14 +31,14 @@ export default function SledgePlus() {
 
   return (
     <div className="relative min-h-[100svh] font-poppins bg-[#050505] overflow-x-hidden flex flex-col pb-0 text-white">
-      <SEO 
+      <SEO
         title="SLEDGE+ Advanced Impact"
         description="Elevate your impact with SLEDGE+. Exclusive resources, advanced mentorship, and a premium professional network."
         keywords="SLEDGE Plus, advanced mentorship, professional impact, premium tech network"
         schemaData={schemaData}
       />
       <ScrollToTopButton />
-      
+
       {/* Background Decorative Elements */}
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vh] bg-green-500/5 blur-[120px] rounded-full"></div>
@@ -50,7 +50,7 @@ export default function SledgePlus() {
       </div>
 
       <main className="relative z-10 flex-grow w-full">
-        
+
         {/* Hero Section */}
         <section className="px-6 md:px-10 pt-8 pb-16 md:pt-16 md:pb-24">
           <div className=" mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-10">
@@ -65,7 +65,7 @@ export default function SledgePlus() {
               <p className="text-white/60 text-base md:text-lg leading-relaxed max-w-xl mb-10 font-normal">
                 {plus.heroDesc}
               </p>
-              
+
               {/* Image-style List - Left aligned on mobile */}
               <ul className="space-y-4 mb-10 flex flex-col items-start">
                 {plus.features.map((benefit: string, idx: number) => (
@@ -79,7 +79,7 @@ export default function SledgePlus() {
               </ul>
 
               <div className="flex flex-wrap items-center gap-3 justify-start">
-                <Link 
+                <Link
                   to="/plus/schedule"
                   className="px-5 py-2.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors flex items-center gap-2 text-white/80 text-sm"
                 >
@@ -91,22 +91,22 @@ export default function SledgePlus() {
                 </div>
               </div>
             </div>
-            
+
             {/* Price Card - 50% Width on Desktop */}
             <div className="w-full lg:w-2/5 relative fade-in fade-in-delay-100">
               <div className="w-full relative z-10 bg-white/[0.03] backdrop-blur-md rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl group transition-all hover:border-green-500/30">
                 <div className="p-10 md:p-16 text-center relative">
                   <div className="relative z-10">
                     <span className="text-xs font-bold mb-8 text-white/30 uppercase tracking-[0.4em] block">Membership Investment</span>
-                    
+
                     <div className="flex flex-col items-center mb-10">
-                       <div className="flex items-baseline gap-2">
-                         <span className="text-7xl md:text-8xl font-semibold text-grad tracking-tighter">${plus.priceUsd || plus.price}</span>
-                         <span className="text-white/40 text-lg font-medium italic">{plus.priceUnit}</span>
-                       </div>
-                       <div className="text-white/30 text-sm font-medium mt-1">
-                         or <span className="text-green-500/80">₦{(plus.priceNgn || 0).toLocaleString()}</span>
-                       </div>
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-7xl md:text-8xl font-semibold text-grad tracking-tighter">${plus.priceUsd || plus.price}</span>
+                        <span className="text-white/40 text-lg font-medium italic">{plus.priceUnit}</span>
+                      </div>
+                      <div className="text-white/30 text-sm font-medium mt-1">
+                        or <span className="text-green-500/80">₦{(plus.priceNgn || 0).toLocaleString()}</span>
+                      </div>
                     </div>
 
                     <div className="space-y-6 max-w-sm mx-auto">

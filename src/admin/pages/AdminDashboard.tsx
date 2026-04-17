@@ -1,11 +1,13 @@
-import { Calendar, Clock, LayoutDashboard, Menu, Pencil, Plus, Search, Settings, Trash2, Users, X } from 'lucide-react';
+import { Calendar, Clock, LayoutDashboard, Menu, MessageSquare, Pencil, Plus, Search, Settings, Star, Trash2, Users, X, Map as MapIcon } from 'lucide-react';
 // import contentData from '../../data/content.json'; (No longer needed)
 import { useEffect, useMemo, useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { API_BASE } from '../../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
+import RoadmapManager from '../components/RoadmapManager';
 
-type AdminTab = 'dashboard' | 'registrations' | 'sessions' | 'schedule' | 'settings' | 'pages';
+type AdminTab = 'dashboard' | 'registrations' | 'sessions' | 'schedule' | 'settings' | 'pages' | 'roadmap' | 'testimonials';
 
 type Registration = {
   id: number;
@@ -26,6 +28,17 @@ type RegistrationsResponse = {
   page: number;
   limit: number;
   total: number;
+};
+
+type Testimonial = {
+  id: number;
+  name: string;
+  role: string | null;
+  content: string;
+  image_url: string | null;
+  rating: number;
+  is_active: number;
+  created_at: string;
 };
 
 type ContentData = {
@@ -530,6 +543,8 @@ const AdminDashboard = () => {
       { id: 'registrations' as const, label: 'Registrations', icon: Users },
       { id: 'sessions' as const, label: 'Sessions', icon: Calendar },
       { id: 'schedule' as const, label: 'Schedule', icon: Calendar },
+      { id: 'roadmap' as const, label: 'Roadmap', icon: MapIcon },
+      { id: 'testimonials' as const, label: 'Testimonials', icon: MessageSquare },
       { id: 'pages' as const, label: 'Page editors', icon: Pencil },
       { id: 'settings' as const, label: 'Settings', icon: Settings },
     ],
@@ -622,6 +637,8 @@ const AdminDashboard = () => {
     const [receiptEmail, setReceiptEmail] = useState('');
     const [receiptLoading, setReceiptLoading] = useState(false);
     const [receiptError, setReceiptError] = useState<string | null>(null);
+    const [showTestimonials, setShowTestimonials] = useState(true);
+    const [updatingSetting, setUpdatingSetting] = useState(false);
 
     useEffect(() => {
       let cancelled = false;
@@ -640,6 +657,13 @@ const AdminDashboard = () => {
           if (!cancelled) {
             setData(jsonDash);
             setSessions(jsonSess?.items || []);
+            
+            // Fetch show_testimonials setting
+            const resContent = await fetch(`${API_BASE}/content.php`);
+            const jsonContent = await resContent.json().catch(() => null);
+            if (jsonContent && jsonContent.show_testimonials !== undefined) {
+              setShowTestimonials(jsonContent.show_testimonials === true || jsonContent.show_testimonials === 'true');
+            }
           }
         } catch (e) {
           if (!cancelled) setError(e instanceof Error ? e.message : 'Failed to load dashboard');
@@ -716,6 +740,23 @@ const AdminDashboard = () => {
       } catch (e) {
         setReceiptError(e instanceof Error ? e.message : 'Failed to generate receipt');
       } finally { setReceiptLoading(false); }
+    };
+
+    const toggleTestimonialsSetting = async () => {
+      const newValue = !showTestimonials;
+      setUpdatingSetting(true);
+      try {
+        const res = await fetch(`${API_BASE}/content-editor.php`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ show_testimonials: newValue })
+        });
+        if (res.ok) setShowTestimonials(newValue);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setUpdatingSetting(false);
+      }
     };
 
     return (
@@ -806,6 +847,7 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
+
         <div className="relative group overflow-hidden bg-white/[0.02] border border-white/10 rounded-2xl p-8">
           <div className="absolute -right-20 -top-20 w-80 h-80 bg-green-500/10 blur-[100px] rounded-full pointer-events-none"></div>
           <div className="relative">
@@ -837,28 +879,241 @@ const AdminDashboard = () => {
 
         <div className="relative overflow-hidden bg-white/[0.02] border border-white/10 rounded-2xl p-6">
           <div className="flex items-center justify-between gap-6">
-            <div>
-              <h3 className="text-lg font-bold text-white mb-1">Quick actions</h3>
-              <p className="text-sm text-white/40 font-medium italic">Frequent management tasks at your fingertips.</p>
+            <div className="flex items-center gap-4">
+              <div className={cx(
+                "w-12 h-12 rounded-2xl flex items-center justify-center transition-colors",
+                showTestimonials ? "bg-green-500/10 text-green-500" : "bg-white/5 text-white/20"
+              )}>
+                <MessageSquare className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white mb-1">Global Testimonials</h3>
+                <p className="text-sm text-white/40 font-medium italic">Toggle visibility of testimonials section on public pages.</p>
+              </div>
             </div>
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={() => setActiveTab('registrations')}
-                className="px-5 py-2.5 text-[11px] font-black uppercase tracking-widest rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/5 transition-all"
-              >
-                Registrations
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveTab('schedule')}
-                className="px-5 py-2.5 text-[11px] font-black uppercase tracking-widest rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/5 transition-all"
-              >
-                Schedule
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={toggleTestimonialsSetting}
+              disabled={updatingSetting}
+              className={cx(
+                "px-6 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all border",
+                showTestimonials 
+                  ? "bg-green-500 text-black border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.3)]" 
+                  : "bg-white/5 text-white/40 border-white/10"
+              )}
+            >
+              {updatingSetting ? 'Syncing...' : (showTestimonials ? 'Enabled' : 'Disabled')}
+            </button>
           </div>
         </div>
+      </div>
+    );
+  };
+
+  const TestimonialsPage = () => {
+    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [editing, setEditing] = useState<Partial<Testimonial> | null>(null);
+
+    const load = useCallback(async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`${API_BASE}/testimonials.php`);
+        const json = await res.json();
+        setTestimonials(json.items || []);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    }, []);
+
+    useEffect(() => { load(); }, [load]);
+
+    const handleSave = async () => {
+      if (!editing) return;
+      setSaving(true);
+      try {
+        const method = editing.id ? 'PUT' : 'POST';
+        const res = await fetch(`${API_BASE}/testimonials.php`, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(editing)
+        });
+        if (res.ok) {
+          setEditing(null);
+          load();
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setSaving(false);
+      }
+    };
+
+    const handleDelete = async (id: number) => {
+      if (!confirm('Are you sure you want to delete this testimonial?')) return;
+      try {
+        await fetch(`${API_BASE}/testimonials.php`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+        load();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    const toggleActive = async (t: Testimonial) => {
+      try {
+        await fetch(`${API_BASE}/testimonials.php`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: t.id, is_active: t.is_active ? 0 : 1 })
+        });
+        load();
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    return (
+      <div className="space-y-8 animate-in fade-in duration-500 pb-20">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-1">Testimonials</h2>
+            <p className="text-sm text-white/40 font-medium italic">Manage student success stories and feedback.</p>
+          </div>
+          <button 
+            onClick={() => setEditing({ name: '', role: '', content: '', rating: 5, is_active: 1 })}
+            className="px-8 py-3 rounded-xl bg-green-500 text-black font-black uppercase tracking-widest text-[11px] hover:bg-green-400 transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)]"
+          >
+            Add Testimonial
+          </button>
+        </div>
+
+        {loading && testimonials.length === 0 ? (
+           <div className="py-20 text-center text-white/20 font-mono tracking-widest uppercase text-[10px]">Fetching reviews...</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {testimonials.map(t => (
+              <div key={t.id} className="group relative bg-[#0f0f11]/40 border border-white/10 rounded-[2rem] p-8 hover:border-white/20 transition-all">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className={cx("w-4 h-4", i < t.rating ? "text-green-500 fill-green-500" : "text-white/10")} />
+                    ))}
+                  </div>
+                  <button 
+                    onClick={() => toggleActive(t)}
+                    className={cx(
+                      "px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all",
+                      t.is_active ? "bg-green-500/10 text-green-500 border-green-500/20" : "bg-white/5 text-white/20 border-white/5"
+                    )}
+                  >
+                    {t.is_active ? 'Active' : 'Hidden'}
+                  </button>
+                </div>
+                
+                <p className="text-white/70 text-sm leading-relaxed mb-8 italic">"{t.content}"</p>
+                
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+                       {t.image_url ? <img src={t.image_url} alt="" className="w-full h-full object-cover" /> : <Users className="w-5 h-5 text-white/20" />}
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-sm tracking-tight">{t.name}</h4>
+                      <p className="text-white/30 text-[11px] font-medium">{t.role}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button onClick={() => setEditing(t)} className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/40 hover:text-white transition-all border border-white/5"><Pencil className="w-4 h-4" /></button>
+                    <button onClick={() => handleDelete(t.id)} className="p-2.5 rounded-xl bg-red-500/5 hover:bg-red-500/10 text-red-500/40 hover:text-red-500 transition-all border border-white/5"><Trash2 className="w-4 h-4" /></button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {editing && createPortal(
+          <div className="fixed inset-0 z-[1000] flex items-start sm:items-center justify-center p-4 sm:p-6 overflow-y-auto custom-scrollbar">
+            <div className="absolute inset-0 bg-black/90 backdrop-blur-xl" onClick={() => setEditing(null)} />
+            <div className="relative w-full max-w-2xl bg-[#0f0f11] border border-white/10 rounded-[2rem] sm:rounded-[2.5rem] p-6 sm:p-10 shadow-2xl animate-in fade-in zoom-in duration-300 my-auto">
+              <h3 className="text-2xl font-bold text-white mb-8">{editing.id ? 'Edit' : 'Add'} Testimonial</h3>
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                   <div className="space-y-2">
+                     <label className="text-[10px] uppercase font-black tracking-widest text-white/30 ml-1">Name</label>
+                     <input 
+                       value={editing.name || ''} 
+                       onChange={e => setEditing({ ...editing, name: e.target.value })}
+                       className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-green-500/50" 
+                     />
+                   </div>
+                   <div className="space-y-2">
+                     <label className="text-[10px] uppercase font-black tracking-widest text-white/30 ml-1">Role / Company</label>
+                     <input 
+                       value={editing.role || ''} 
+                       onChange={e => setEditing({ ...editing, role: e.target.value })}
+                       className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-green-500/50" 
+                     />
+                   </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] uppercase font-black tracking-widest text-white/30 ml-1">Feedback Content</label>
+                  <textarea 
+                    rows={4}
+                    value={editing.content || ''} 
+                    onChange={e => setEditing({ ...editing, content: e.target.value })}
+                    className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-green-500/50 resize-none" 
+                  />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    <div className="space-y-2">
+                        <label className="text-[10px] uppercase font-black tracking-widest text-white/30 ml-1">Rating (1-5)</label>
+                        <input 
+                            type="number" min="1" max="5"
+                            value={editing.rating || 5} 
+                            onChange={e => setEditing({ ...editing, rating: parseInt(e.target.value) })}
+                            className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-green-500/50" 
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <label className="text-[10px] uppercase font-black tracking-widest text-white/30 ml-1">Avatar URL (Optional)</label>
+                        <input 
+                            value={editing.image_url || ''} 
+                            onChange={e => setEditing({ ...editing, image_url: e.target.value })}
+                            placeholder="https://..."
+                            className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-green-500/50" 
+                        />
+                    </div>
+                </div>
+                
+                <div className="pt-4 sm:pt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+                  <button 
+                    onClick={() => setEditing(null)}
+                    className="flex-1 py-4 rounded-2xl bg-white/5 border border-white/10 text-white/60 font-black uppercase tracking-widest text-[11px] hover:bg-white/10 transition-all"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="flex-1 py-4 rounded-2xl bg-green-500 hover:bg-green-600 text-black font-black uppercase tracking-widest text-[11px] transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)]"
+                  >
+                    {saving ? 'Saving...' : 'Save Testimonial'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
       </div>
     );
   };
@@ -1641,8 +1896,10 @@ const AdminDashboard = () => {
     if (activeTab === 'registrations') return <RegistrationsPage />;
     if (activeTab === 'sessions') return <SessionsPage />;
     if (activeTab === 'schedule') return <SchedulePage />;
+    if (activeTab === 'roadmap') return <RoadmapManager />;
     if (activeTab === 'pages') return <PagesPage />;
     if (activeTab === 'settings') return <SettingsPage />;
+    if (activeTab === 'testimonials') return <TestimonialsPage />;
     return <DashboardPage />;
   };
 

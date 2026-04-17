@@ -1,6 +1,9 @@
 import { useEffect, type ReactNode } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { QueryClient } from '@tanstack/react-query';
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
 import Home from './pages/Home';
 import AdminLogin from './admin/pages/AdminLogin';
 import AdminDashboard from './admin/pages/AdminDashboard';
@@ -21,7 +24,23 @@ import RegisterPlusPage from './pages/RegisterPlusPage';
 import TermsOfService from './pages/TermsOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import License from './pages/License';
+import Roadmap from './pages/Roadmap';
 import { ContentProvider } from './contexts/ContentContext';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: 1000 * 60 * 60 * 24, // 24 hours
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 2,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+const persister = createSyncStoragePersister({
+  storage: window.localStorage,
+});
 
 function ScrollToHash() {
   const location = useLocation();
@@ -48,42 +67,49 @@ function RequireAdmin({ children }: { children: ReactNode }) {
 
 export default function App() {
   return (
-    <HelmetProvider>
-      <ContentProvider>
-        <Router>
-          <ScrollToHash />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/payment" element={<RegisterPage />} />
-            <Route path="/plus/payment" element={<RegisterPlusPage />} />
-            <Route path="/register" element={<Navigate to="/payment" replace />} />
-            <Route path="/payment-success" element={<PaymentSuccess />} />
-            <Route path="/payment-receipt" element={<PaymentReceipt />} />
-            <Route path="/schedule" element={<Schedule />} />
-            <Route path="/plus/schedule" element={<SchedulePlus />} />
-            <Route path="/program" element={<Program />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/mentors" element={<Mentors />} />
-            <Route path="/community" element={<Community />} />
-            <Route path="/book-a-session" element={<BookSession />} />
-            <Route path="/partners" element={<Partners />} />
-            <Route path="/mentorship" element={<SledgeMentorship />} />
-            <Route path="/plus" element={<SledgePlus />} />
-            <Route path="/terms" element={<TermsOfService />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/license" element={<License />} />
-            <Route path="/login" element={<AdminLogin />} />
-            <Route
-              path="/admin/dashboard"
-              element={
-                <RequireAdmin>
-                  <AdminDashboard />
-                </RequireAdmin>
-              }
-            />
-          </Routes>
-        </Router>
-      </ContentProvider>
-    </HelmetProvider>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{ persister }}
+    >
+      <HelmetProvider>
+        <ContentProvider>
+          <Router>
+            <ScrollToHash />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/payment" element={<RegisterPage />} />
+              <Route path="/plus/payment" element={<RegisterPlusPage />} />
+              <Route path="/register" element={<Navigate to="/payment" replace />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/payment-receipt" element={<PaymentReceipt />} />
+              <Route path="/schedule" element={<Schedule />} />
+              <Route path="/plus/schedule" element={<SchedulePlus />} />
+              <Route path="/program" element={<Program />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/mentors" element={<Mentors />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/book-a-session" element={<BookSession />} />
+              <Route path="/partners" element={<Partners />} />
+              <Route path="/mentorship" element={<SledgeMentorship />} />
+              <Route path="/plus" element={<SledgePlus />} />
+              <Route path="/roadmap" element={<Roadmap />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/license" element={<License />} />
+              <Route path="/login" element={<AdminLogin />} />
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <RequireAdmin>
+                    <AdminDashboard />
+                  </RequireAdmin>
+                }
+              />
+            </Routes>
+          </Router>
+        </ContentProvider>
+      </HelmetProvider>
+    </PersistQueryClientProvider>
   );
 }
+

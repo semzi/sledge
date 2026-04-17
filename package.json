@@ -13,6 +13,10 @@
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.17",
     "@tailwindcss/vite": "^4.1.17",
+    "@tanstack/query-sync-storage-persister": "^5.99.0",
+    "@tanstack/react-query": "^5.99.0",
+    "@tanstack/react-query-devtools": "^5.99.0",
+    "@tanstack/react-query-persist-client": "^5.99.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "flag-icon-css": "^4.1.7",
