@@ -4,7 +4,7 @@ import {
   Clock, CheckCircle2, Circle, Star, Award, Shield, Heart, Lightbulb, 
   Map, MousePointer2, Settings, Wrench, Terminal, Code, Cpu, Database, 
   Cloud, Activity, BarChart3, PieChart, TrendingUp, Presentation, 
-  Image as ImageIcon, Link, Mail, Phone, MessageSquare, Plus, Trash2, Pencil, Save, X, ChevronDown
+  Image as ImageIcon, Link, Mail, Phone, MessageSquare, Plus, Trash2, X, ChevronDown
 } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchRoadmap, apiUrl } from "../../lib/api";
